@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tanay77 · lime & sky gradient</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <title>tanay77 · live profile image</title>
+  <!-- SORA FONT (weights 300 light, 600 semibold) -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,8 +15,8 @@
 
     body {
       min-height: 100vh;
-      font-family: 'Montserrat', sans-serif;
-      /* NEW COLOR SCHEME: #C5E856 (lime) → #45C6F2 (sky blue) */
+      font-family: 'Sora', sans-serif;
+      /* Color scheme: #C5E856 (lime) → #45C6F2 (sky) */
       background: linear-gradient(135deg, #C5E856, #8CD4B0, #45C6F2, #6AC9E0, #C5E856);
       background-size: cover;
       display: flex;
@@ -39,7 +40,8 @@
       display: inline-block;
       position: relative;
       padding-bottom: 20px;
-      text-shadow: 0 0 8px rgba(0,0,0,0.3); /* darker shadow for better contrast on light bg */
+      text-shadow: 0 0 8px rgba(0,0,0,0.3);
+      font-weight: 600; /* semibold */
     }
 
     h1::after {
@@ -64,28 +66,28 @@
       100% { transform: scaleX(0); opacity: 1; }
     }
 
-    /* ===== name box ===== */
+    /* ===== NAME BOX – white background, black text, light weight ===== */
     .name-box {
       position: relative;
       display: inline-block;
       padding: 20px 80px;
       border-radius: 15px;
       overflow: hidden;
-      background: rgba(0, 0, 0, 0.2); /* slightly darker for contrast on bright bg */
+      background: #ffffff; /* solid white */
       box-shadow: 0 15px 35px rgba(0,0,0,0.5);
       transition: transform 0.3s ease;
       margin: 10px 0;
     }
 
     .name-text {
-      color: white;
+      color: #000000; /* black */
       font-size: 2.5rem;
-      font-weight: 700;
+      font-weight: 300; /* light */
       position: relative;
       z-index: 2;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
+    /* Animated border (unchanged) */
     .circle-border::before {
       content: "";
       position: absolute;
@@ -100,7 +102,7 @@
       content: "";
       position: absolute;
       inset: 5px;
-      background: #1e3a4a;  /* deep blue-teal to complement #45C6F2 */
+      background: #ffffff; /* white inset */
       border-radius: 15px;
       z-index: 1;
     }
@@ -110,7 +112,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ===== profile pic ===== */
+    /* ===== profile pic with YOUR IMAGE PATH ===== */
     .profile-wrapper {
       display: flex;
       justify-content: center;
@@ -126,6 +128,7 @@
       background: conic-gradient(#ff0080, #ff8c00, #40e0d0, #ff0080);
       box-shadow: 0 0 25px rgba(64,224,208,0.7);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      /* animation stays exactly the same */
     }
 
     .profile-pic {
@@ -134,9 +137,9 @@
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #1e3a4a;
-      background: #1e3a4a;
+      background: #1e3a4a; /* fallback */
       user-select: none;
-      pointer-events: none;
+      /* pointer-events: none;  removed so image works normally */
     }
 
     .profile-ring:hover {
@@ -156,6 +159,7 @@
       gap: 10px;
       flex-wrap: wrap;
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      font-weight: 300;
     }
 
     .animation {
@@ -178,7 +182,7 @@
       padding: 0 8px;
       border-radius: 25px;
       color: white;
-      font-weight: bold;
+      font-weight: 600;
       text-transform: capitalize;
     }
 
@@ -218,24 +222,24 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* royal glass button (unchanged) */
     .button-35 {
       position: relative;
       padding: 15px 36px;
       margin: 12px;
       font-size: 22px;
-      font-weight: 700;
+      font-weight: 600;
       border-radius: 50px;
       cursor: pointer;
       letter-spacing: 1px;
       border: none;
       overflow: hidden;
       color: white;
-      background: rgba(0, 0, 0, 0.25); /* darker glass for contrast on bright bg */
+      background: rgba(0, 0, 0, 0.25);
       backdrop-filter: blur(8px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.4);
       transition: all 0.35s ease;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      font-family: 'Sora', sans-serif;
     }
 
     .button-35::before {
@@ -283,7 +287,7 @@
 
     /* ===== footer ===== */
     footer {
-      background: #1e3a4a;  /* matching the deep blue-teal */
+      background: #1e3a4a;
       color: white;
       padding: 15px;
       text-align: center;
@@ -295,6 +299,7 @@
       flex-shrink: 0;
       box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
       border-top: 2px solid rgba(255,255,255,0.1);
+      font-weight: 300;
     }
 
     /* ===== responsive ===== */
@@ -323,13 +328,12 @@
 
     <div class="profile-wrapper">
       <div class="profile-ring">
-        <!-- inline SVG profile with deep blue-teal accent -->
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2345C6F2' /%3E%3Ctext x='50' y='68' font-size='18' text-anchor='middle' fill='%23ffffff' font-family='Montserrat'%3ETM%3C/text%3E%3C/svg%3E"
-             alt="Tanay profile" class="profile-pic">
-        <!-- original commented image line: <img src="image/IMG_5424 V4 copy.jpg" alt="Kaustubh Ramteke" class="profile-pic"> -->
+        <!-- YOUR EXACT PROFILE IMAGE PATH - circle & animation untouched -->
+        <img src="image/IMG_5424 V4 copy.jpg" alt="Tanay Motghare" class="profile-pic">
       </div>
     </div>
 
+    <!-- white box, black text, light weight -->
     <div class="name-box">
       <div class="circle-border"></div>
       <div class="name-text">TANAY SARITA SANJAYKUMAR MOTGHARE</div>
