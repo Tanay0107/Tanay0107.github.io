@@ -3,11 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tanay</title>
+<title>Tanay Motghare</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+
+:root{
+--accent-green:#c8e86b;
+}
 
 body{
 margin:0;
@@ -15,17 +19,25 @@ font-family:'Montserrat', sans-serif;
 background:#6b6b6b;
 }
 
-/* main card */
+/* GLASS CONTAINER */
 
 .container{
 max-width:900px;
 margin:80px auto;
-background:#eee;
 padding:50px;
 position:relative;
+
+background:white;
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+
+box-shadow:0 20px 50px rgba(0,0,0,0.3);
+border:1px solid rgba(255,255,255,0.3);
+
+border-radius:12px;
 }
 
-/* grey blocks */
+/* BACKGROUND BLOCKS */
 
 .bg-dark{
 position:absolute;
@@ -45,7 +57,7 @@ height:120px;
 background:#5a5a5a;
 }
 
-/* layout row */
+/* LAYOUT */
 
 .row{
 display:flex;
@@ -53,15 +65,17 @@ gap:40px;
 align-items:flex-start;
 }
 
-/* profile */
+/* PROFILE IMAGE */
 
 .profile{
 width:220px;
 height:280px;
 object-fit:cover;
+border-radius:6px;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
-/* text section */
+/* INFO SECTION */
 
 .info{
 flex:1;
@@ -71,33 +85,36 @@ flex:1;
 font-size:50px;
 color:#64c5df;
 margin:0;
+font-weight:700;
 }
 
 .title{
-background:#c8e86b;
-padding:10px;
+background:var(--accent-green);
+padding:10px 16px;
 width:fit-content;
 font-weight:600;
 margin-top:10px;
+border-radius:3px;
 }
 
 .contact{
-margin-top:10px;
-font-size:13px;
+margin-top:12px;
+font-size:14px;
 }
 
-/* green square */
+/* SMALL GREEN ACCENT */
 
 .square{
 width:40px;
 height:25px;
-background:#c8e86b;
+background:var(--accent-green);
 position:absolute;
 left:20px;
 top:170px;
+border-radius:3px;
 }
 
-/* description */
+/* DESCRIPTION */
 
 .desc{
 margin-top:40px;
@@ -106,7 +123,7 @@ color:#333;
 line-height:1.6;
 }
 
-/* MOBILE */
+/* MOBILE RESPONSIVE */
 
 @media (max-width:768px){
 
@@ -127,16 +144,21 @@ height:220px;
 }
 
 .name{
-font-size:24px;
+margin-top:3px;
+font-size:28px;
 }
 
 .title{
-font-size:20px;
 margin:auto;
+font-size:18px;
 }
 
 .contact{
-font-size:18px;
+font-size:16px;
+}
+
+.desc{
+font-size:16px;
 }
 
 .bg-dark,
@@ -164,7 +186,7 @@ display:none;
 
 <div class="info">
 
-<div class="name"><br><b>Tanay Motghare</div>
+<div class="name"><br>Tanay Motghare</br> </div>
 
 <div class="title">
 Graphic Designer
