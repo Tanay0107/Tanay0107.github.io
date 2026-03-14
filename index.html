@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>tanay</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -9,85 +10,140 @@
 <style>
 
 body{
-    margin:0;
-    font-family: 'Montserrat', sans-serif;
-    background:#6b6b6b;
+margin:0;
+font-family:'Montserrat', sans-serif;
+background:#6b6b6b;
 }
 
 /* main card */
+
 .container{
-    width:900px;
-    margin:100px auto;
-    background:#eee;
-    padding:50px;
-    position:relative;
+max-width:900px;
+margin:80px auto;
+background:#eee;
+padding:50px;
+position:relative;
 }
 
-/* grey background blocks */
+/* grey blocks */
+
 .bg-dark{
-    position:absolute;
-    left:-60px;
-    top:-60px;
-    width:120px;
-    height:400px;
-    background:#4a4a4a;
+position:absolute;
+left:-60px;
+top:-60px;
+width:120px;
+height:400px;
+background:#4a4a4a;
 }
 
 .bg-top{
-    position:absolute;
-    top:-60px;
-    left:150px;
-    width:220px;
-    height:120px;
-    background:#5a5a5a;
+position:absolute;
+top:-60px;
+left:150px;
+width:220px;
+height:120px;
+background:#5a5a5a;
 }
 
-/* profile image */
+/* layout row */
+
+.row{
+display:flex;
+gap:40px;
+align-items:flex-start;
+}
+
+/* profile */
+
 .profile{
-    width:220px;
-    height:280px;
-    object-fit:cover;
+width:220px;
+height:280px;
+object-fit:cover;
 }
 
-/* name */
+/* text section */
+
+.info{
+flex:1;
+}
+
 .name{
-    font-size:40px;
-    color:#64c5df;
-    margin-left:260px;
-    margin-top:-260px;
+font-size:40px;
+color:#64c5df;
+margin:0;
 }
 
-/* title bar */
 .title{
-    margin-left:260px;
-    background:#c8e86b;
-    padding:10px;
-    width:300px;
-    font-weight:600;
+background:#c8e86b;
+padding:10px;
+width:fit-content;
+font-weight:600;
+margin-top:10px;
 }
 
-/* small green square */
-.square{
-    width:40px;
-    height:25px;
-    background:#c8e86b;
-    position:absolute;
-    left:20px;
-    top:170px;
-}
-
-/* contact row */
 .contact{
-    margin-left:260px;
-    margin-top:10px;
-    font-size:13px;
+margin-top:10px;
+font-size:13px;
+}
+
+/* green square */
+
+.square{
+width:40px;
+height:25px;
+background:#c8e86b;
+position:absolute;
+left:20px;
+top:170px;
 }
 
 /* description */
+
 .desc{
-    margin-top:40px;
-    font-size:13px;
-    color:#333;
+margin-top:40px;
+font-size:13px;
+color:#333;
+line-height:1.6;
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+.container{
+padding:30px;
+margin:40px 20px;
+}
+
+.row{
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
+
+.profile{
+width:180px;
+height:220px;
+}
+
+.name{
+font-size:28px;
+}
+
+.title{
+margin:auto;
+}
+
+.contact{
+font-size:12px;
+}
+
+.bg-dark,
+.bg-top,
+.square{
+display:none;
+}
+
 }
 
 </style>
@@ -101,9 +157,13 @@ body{
 <div class="bg-top"></div>
 <div class="square"></div>
 
+<div class="row">
+
 <img src="image/IMG_5424 V4 copy.jpg" class="profile">
 
-<div class="name">TanayMotghare</div>
+<div class="info">
+
+<div class="name">Tanay Motghare</div>
 
 <div class="title">
 Graphic Designer
@@ -113,6 +173,10 @@ Graphic Designer
 📧 tanaymotghare2001@gmail.com &nbsp;&nbsp;
 👤 Tanay Motghare &nbsp;&nbsp;
 📞 9894314981
+</div>
+
+</div>
+
 </div>
 
 <div class="desc">
