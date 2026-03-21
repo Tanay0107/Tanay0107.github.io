@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT Project</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: #0f2027;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  padding: 25px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<h1>ChatGPT Case Study</h1>
+
+<div id="loading" class="loading">Loading images...</div>
+<div class="gallery" id="gallery"></div>
+
+<script>
+const USER = "Tanay0107";
+const REPO = "Tanay0107.github.io";
+const FOLDER = "portfolio/chatgpt";
+
+async function loadImages() {
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${USER}/${REPO}/contents/${FOLDER}`
+    );
+
+    const data = await res.json();
+
+    const gallery = document.getElementById("gallery");
+    const loading = document.getElementById("loading");
+
+    loading.style.display = "none";
+
+    data.forEach(file => {
+      if (file.type === "file" && file.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
+        const img = document.createElement("img");
+        img.src = file.download_url;
+        gallery.appendChild(img);
+      }
+    });
+
+  } catch (err) {
+    document.getElementById("loading").innerText = "Failed to load images";
+    console.error(err);
+  }
+}
+
+loadImages();
+</script>
+</body>
+</html>
