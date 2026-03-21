@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanay Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 40px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn {
+  padding: 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.2);
+}
+
+/* Individual styles */
+.chatgpt { border: 1px solid #00ffae; }
+.hajmola { border: 1px solid #ffcc00; }
+.logo { border: 1px solid #ff4d6d; }
+.mini { border: 1px solid #8a2be2; }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>My Portfolio</h1>
+
+  <div class="buttons">
+    <button class="btn chatgpt" onclick="openPage('chatgpt.html')">ChatGPT</button>
+    <button class="btn hajmola" onclick="openPage('hajmola.html')">Hajmola</button>
+    <button class="btn logo" onclick="openPage('logo.html')">Logo</button>
+    <button class="btn mini" onclick="openPage('mini.html')">Mini</button>
+  </div>
+</div>
+
+<script>
+function openPage(page) {
+  window.location.href = page;
+}
+</script>
+
+</body>
+</html>
