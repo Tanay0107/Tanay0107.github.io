@@ -15,31 +15,38 @@ body {
 
 h1 {
   text-align: center;
-  padding: 25px;
+  padding: 30px;
+  font-size: 28px;
+  letter-spacing: 1px;
 }
 
+/* GRID */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  padding: 20px;
+  gap: 20px;
+  padding: 30px;
 }
 
-.gallery img {
-  width: 100%;
-  border-radius: 12px;
+/* CARD */
+.card {
+  border-radius: 14px;
+  overflow: hidden;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.gallery img:hover {
-  transform: scale(1.05);
+/* IMAGE */
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #aaa;
+/* HOVER */
+.card:hover {
+  transform: scale(1.04);
 }
 
 /* LIGHTBOX */
@@ -79,6 +86,17 @@ h1 {
 
 #prev { left: 20px; }
 #next { right: 20px; }
+
+/* MOBILE */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+  }
+  #prev, #next {
+    font-size: 30px;
+    padding: 10px;
+  }
+}
 </style>
 </head>
 
@@ -86,7 +104,6 @@ h1 {
 
 <h1>Sandisk ad campaign</h1>
 
-<div id="loading" class="loading">Loading images...</div>
 <div class="gallery" id="gallery"></div>
 
 <!-- LIGHTBOX -->
@@ -100,47 +117,49 @@ h1 {
 <script>
 const USER = "Tanay0107";
 const REPO = "Tanay0107.github.io";
-const FOLDER = "portfolio/mimi"; // 👈 only change
+const FOLDER = "portfolio/mimi";
+
+// YOUR FILES
+const imageFiles = [
+  "2313199_.jpg",
+  "Untitled-1-01.jpg",
+  "Untitled-1-02.jpg",
+  "Untitled-1-03.jpg",
+  "Untitled-1-04.jpg",
+  "Untitled-1-05.jpg",
+  "Untitled-1-06.jpg",
+  "instragram add.jpg",
+  "sandisk_.jpg"
+];
 
 let images = [];
 let currentIndex = 0;
 
-async function loadImages() {
-  try {
-    const res = await fetch(
-      `https://api.github.com/repos/${USER}/${REPO}/contents/${FOLDER}`
-    );
+const gallery = document.getElementById("gallery");
 
-    const data = await res.json();
+imageFiles.forEach((file, index) => {
 
-    const gallery = document.getElementById("gallery");
-    const loading = document.getElementById("loading");
+  const encodedFile = encodeURIComponent(file);
+  const imageUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
 
-    loading.style.display = "none";
+  images.push(imageUrl);
 
-    data.forEach(file => {
-      if (file.type === "file" && file.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
+  const card = document.createElement("div");
+  card.className = "card";
 
-        images.push(file.download_url);
+  const img = document.createElement("img");
+  img.src = imageUrl;
 
-        const img = document.createElement("img");
-        img.src = file.download_url;
+  card.onclick = () => {
+    currentIndex = index;
+    openLightbox();
+  };
 
-        img.onclick = () => {
-          currentIndex = images.indexOf(img.src);
-          openLightbox();
-        };
+  card.appendChild(img);
+  gallery.appendChild(card);
+});
 
-        gallery.appendChild(img);
-      }
-    });
-
-  } catch (err) {
-    document.getElementById("loading").innerText = "Failed to load images";
-    console.error(err);
-  }
-}
-
+/* LIGHTBOX */
 function openLightbox() {
   document.getElementById("lightbox").style.display = "flex";
   document.getElementById("lightbox-img").src = images[currentIndex];
@@ -160,12 +179,12 @@ function prevImg() {
   document.getElementById("lightbox-img").src = images[currentIndex];
 }
 
-// Controls
+/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-// Keyboard navigation
+/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
   const lightbox = document.getElementById("lightbox");
   if (lightbox.style.display === "flex") {
@@ -174,8 +193,6 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") prevImg();
   }
 });
-
-loadImages();
 </script>
 
 </body>
