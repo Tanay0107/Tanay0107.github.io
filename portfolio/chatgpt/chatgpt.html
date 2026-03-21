@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,8 +79,12 @@ h1 {
   padding: 20px;
 }
 
-#prev { left: 20px; }
-#next { right: 20px; }
+#prev { 
+left: 20px; 
+color:#26C9B2;
+}
+#next { right: 20px; 
+color:#26C9B2;}
 
 /* MOBILE */
 @media (max-width: 600px) {
@@ -163,8 +168,12 @@ imageFiles.forEach((file, index) => {
 });
 
 /* LIGHTBOX */
+let startX = 0;
+let endX = 0;
+
 function openLightbox() {
-  document.getElementById("lightbox").style.display = "flex";
+  const lightbox = document.getElementById("lightbox");
+  lightbox.style.display = "flex";
   document.getElementById("lightbox-img").src = images[currentIndex];
 }
 
@@ -182,12 +191,12 @@ function prevImg() {
   document.getElementById("lightbox-img").src = images[currentIndex];
 }
 
-/* CONTROLS */
+/* BUTTON CONTROLS (optional, you can hide later) */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-/* KEYBOARD */
+/* KEYBOARD (PC) */
 document.addEventListener("keydown", (e) => {
   const lightbox = document.getElementById("lightbox");
   if (lightbox.style.display === "flex") {
@@ -196,6 +205,30 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") prevImg();
   }
 });
+
+/* 🔥 TOUCH SWIPE (MOBILE) */
+const lightbox = document.getElementById("lightbox");
+
+lightbox.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend", (e) => {
+  endX = e.changedTouches[0].clientX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  let diff = startX - endX;
+
+  if (Math.abs(diff) > 50) { // sensitivity
+    if (diff > 0) {
+      nextImg(); // swipe left
+    } else {
+      prevImg(); // swipe right
+    }
+  }
+}
 </script>
 
 </body>
