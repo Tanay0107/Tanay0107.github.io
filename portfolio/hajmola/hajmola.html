@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hajmola Project</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: #0f2027;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  padding: 25px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #aaa;
+}
+
+/* LIGHTBOX */
+#lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+#close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+#prev, #next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+#prev { left: 20px; }
+#next { right: 20px; }
+</style>
+</head>
+
+<body>
+
+<h1>Hajmola Case Study</h1>
+
+<div id="loading" class="loading">Loading images...</div>
+<div class="gallery" id="gallery"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="close">&times;</span>
+  <span id="prev">&#10094;</span>
+  <img id="lightbox-img">
+  <span id="next">&#10095;</span>
+</div>
+
+<script>
+const USER = "Tanay0107";
+const REPO = "Tanay0107.github.io";
+const FOLDER = "portfolio/hajmola"; // 👈 changed here
+
+let images = [];
+let currentIndex = 0;
+
+async function loadImages() {
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${USER}/${REPO}/contents/${FOLDER}`
+    );
+
+    const data = await res.json();
+
+    const gallery = document.getElementById("gallery");
+    const loading = document.getElementById("loading");
+
+    loading.style.display = "none";
+
+    data.forEach(file => {
+      if (file.type === "file" && file.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
+
+        images.push(file.download_url);
+
+        const img = document.createElement("img");
+        img.src = file.download_url;
+
+        img.onclick = () => {
+          currentIndex = images.indexOf(img.src);
+          openLightbox();
+        };
+
+        gallery.appendChild(img);
+      }
+    });
+
+  } catch (err) {
+    document.getElementById("loading").innerText = "Failed to load images";
+    console.error(err);
+  }
+}
+
+function openLightbox() {
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+
+function nextImg() {
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
+
+function prevImg() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
+
+// Controls
+document.getElementById("close").onclick = closeLightbox;
+document.getElementById("next").onclick = nextImg;
+document.getElementById("prev").onclick = prevImg;
+
+// Keyboard navigation
+document.addEventListener("keydown", (e) => {
+  const lightbox = document.getElementById("lightbox");
+  if (lightbox.style.display === "flex") {
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") nextImg();
+    if (e.key === "ArrowLeft") prevImg();
+  }
+});
+
+loadImages();
+</script>
+
+</body>
+</html>
