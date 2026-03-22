@@ -1,286 +1,568 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tanay</title>
+<title>Tanay Motghare | Graphic Designer</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
---accent-green:#c8e86b;
+  --accent-green: #c8e86b;
 }
 
 body{
-margin:0;
-font-family:'Montserrat', sans-serif;
-background:#6b6b6b;
+  margin:0;
+  font-family:'Montserrat', sans-serif;
+  background:#6b6b6b;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* GLASS CONTAINER */
-
 .container{
-max-width:900px;
-margin:80px auto;
-padding:50px;
-position:relative;
-
-background:white;
-backdrop-filter:blur(10px);
--webkit-backdrop-filter:blur(10px);
-
-box-shadow:0 20px 50px rgba(0,0,0,0.3);
-border:1px solid rgba(255,255,255,0.3);
-
-border-radius:12px;
-overflow:hidden;
+  max-width: 900px;
+  width: 90%;
+  margin: 80px auto;
+  padding: 50px;
+  position: relative;
+  background: white;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-/* PORTFOLIO RIBBON */
-
+/* PORTFOLIO RIBBON - ORIGINAL STYLE */
 .portfolio-btn{
-position:absolute;
-top:0;
-right:0;
-
-writing-mode:vertical-rl;
-text-orientation:mixed;
-
-background:var(--accent-green);
-color:#000;
-text-decoration:none;
-font-weight:600;
-letter-spacing:2px;
-
-padding:18px 8px;
-border-radius:0 12px 0 12px;
-
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
-transition:all 0.3s ease;
+  position: absolute;
+  top: 0;
+  right: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  background: var(--accent-green);
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 18px 8px;
+  border-radius: 0 12px 0 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  z-index: 10;
 }
 
 .portfolio-btn::after{
-content:"";
-position:absolute;
-bottom:-10px;
-right:0;
-border-width:10px;
-border-style:solid;
-border-color:#a3c94f transparent transparent transparent;
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #a3c94f transparent transparent transparent;
 }
 
 .portfolio-btn:hover{
-background:#b2d94f;
-padding-right:12px;
+  background: #b2d94f;
+  padding-right: 12px;
 }
 
-/* BACKGROUND BLOCKS */
-
+/* BACKGROUND BLOCKS - ORIGINAL */
 .bg-dark{
-position:absolute;
-left:-60px;
-top:-60px;
-width:120px;
-height:400px;
-background:#4a4a4a;
+  position: absolute;
+  left: -60px;
+  top: -60px;
+  width: 120px;
+  height: 400px;
+  background: #4a4a4a;
+  z-index: 0;
 }
 
 .bg-top{
-position:absolute;
-top:-60px;
-left:150px;
-width:220px;
-height:120px;
-background:#5a5a5a;
+  position: absolute;
+  top: -60px;
+  left: 150px;
+  width: 220px;
+  height: 120px;
+  background: #5a5a5a;
+  z-index: 0;
 }
 
-/* LAYOUT */
+/* GREEN ACCENT STRIP - TOP ALIGNED WITH "Graphic Designer" TITLE STRIP */
+/* Now positioned to match the top edge of the title strip */
+.green-strip{
+  position: absolute;
+  background: var(--accent-green);
+  height: 39px;
+  left:  20px;
+  
+  z-index: 1;
+  width: 0;
+  transition: width 0.15s ease, top 0.1s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
+/* LAYOUT - BOTTOM ALIGNMENT */
 .row{
-display:flex;
-gap:40px;
-align-items:flex-start;
+  display: flex;
+  gap: 40px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
 }
 
-/* IMAGE WRAPPER (PROTECTION) */
-
+/* IMAGE WRAPPER (PROTECTION) - ORIGINAL STYLE */
 .img-wrapper{
-position:relative;
-display:inline-block;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  z-index: 3;
 }
 
 .img-wrapper img{
-width:220px;
-height:280px;
-object-fit:cover;
-border-radius:6px;
-box-shadow:0 10px 25px rgba(0,0,0,0.35);
-
-user-select:none;
--webkit-user-drag:none;
+  width: 220px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  user-select: none;
+  -webkit-user-drag: none;
+  display: block;
+  position: relative;
+  z-index: 3;
 }
 
-/* invisible overlay */
+/* invisible overlay - ORIGINAL */
 .img-wrapper::after{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:transparent;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 4;
 }
 
-/* INFO SECTION */
-
+/* INFO SECTION - aligned bottom with image */
 .info{
-flex:1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 4px;
+  position: relative;
+  z-index: 2;
 }
 
+/* NAME STYLE - keep original colors */
 .name{
-font-size:50px;
-color:#64c5df;
-margin:0;
-font-weight:700;
+  font-size: 50px;
+  color: #64c5df;
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.1;
+  position: relative;
+  background: transparent;
+  display: inline-block;
 }
 
+/* TITLE - original green pill style */
 .title{
-background:var(--accent-green);
-padding:10px 16px;
-width:fit-content;
-font-weight:600;
-margin-top:10px;
-border-radius:3px;
+  background: var(--accent-green);
+  padding: 10px 16px;
+  width: fit-content;
+  font-weight: 600;
+  margin-top: 10px;
+  border-radius: 3px;
+  position: relative;
 }
 
+/* CONTACT - original style */
 .contact{
-margin-top:12px;
-font-size:14px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #333;
+  position: relative;
 }
 
-/* SMALL GREEN ACCENT */
-
-.square{
-width:40px;
-height:25px;
-background:var(--accent-green);
-position:absolute;
-left:20px;
-top:170px;
-border-radius:3px;
-}
-
-/* DESCRIPTION */
-
+/* DESCRIPTION - original style */
 .desc{
-margin-top:40px;
-font-size:18px;
-color:#333;
-line-height:1.6;
+  margin-top: 40px;
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
 }
 
-/* MOBILE RESPONSIVE */
-
-@media (max-width:768px){
-
-.container{
-padding:30px;
-margin:40px 20px;
+/* MOBILE RESPONSIVE - preserve original styling */
+@media (max-width: 768px){
+  .container{
+    padding: 30px;
+    margin: 40px 20px;
+  }
+  
+  .row{
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .info{
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0;
+  }
+  
+  .img-wrapper img{
+    width: 180px;
+    height: 220px;
+  }
+  
+  .name{
+    margin-top: 3px;
+    font-size: 28px;
+  }
+  
+  .title{
+    margin: 10px auto 0 auto;
+    font-size: 18px;
+  }
+  
+  .contact{
+    font-size: 16px;
+    margin-top: 12px;
+  }
+  
+  .desc{
+    font-size: 16px;
+  }
+  
+  .bg-dark,
+  .bg-top{
+    display: none;
+  }
+  
+  .green-strip{
+    display: none;
+  }
+  
+  .portfolio-btn{
+    top: 10px;
+    right: 10px;
+    writing-mode: horizontal-tb;
+    padding: 8px 14px;
+    border-radius: 6px;
+  }
+  
+  .portfolio-btn::after{
+    display: none;
+  }
 }
 
-.row{
-flex-direction:column;
-align-items:center;
-text-align:center;
+/* Tablet and medium screen adjustments */
+@media (min-width: 769px) and (max-width: 950px) {
+  .row {
+    gap: 30px;
+  }
+  .name {
+    font-size: 42px;
+  }
+  .img-wrapper img {
+    width: 200px;
+    height: 260px;
+  }
+  .desc {
+    font-size: 17px;
+  }
 }
 
-.img-wrapper img{
-width:180px;
-height:220px;
-}
-
-.name{
-margin-top:3px;
-font-size:28px;
-}
-
-.title{
-margin:auto;
-font-size:18px;
-}
-
-.contact{
-font-size:16px;
-}
-
-.desc{
-font-size:16px;
-}
-
-.bg-dark,
-.bg-top,
-.square{
-display:none;
-}
-
-.portfolio-btn{
-top:10px;
-right:10px;
-writing-mode:horizontal-tb;
-padding:8px 14px;
-border-radius:6px;
-}
-
-.portfolio-btn::after{
-display:none;
-}
-
+/* Additional refinement for larger screens */
+@media (min-width: 1200px) {
+  .name {
+    font-size: 52px;
+  }
 }
 
 </style>
 </head>
 
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;" ondragstart="return false;">
 
 <div class="container">
 
-<a href="portfolio/portfolio.html" class="portfolio-btn">PORTFOLIO</a>
+  <!-- PORTFOLIO RIBBON - EXACT ORIGINAL SHAPE -->
+  <a href="portfolio/portfolio.html" class="portfolio-btn">PORTFOLIO</a>
 
+  <!-- GREEN ACCENT STRIP - TOP ALIGNED WITH "Graphic Designer" TITLE STRIP -->
+  <!-- Extends precisely to the last letter 'e' of "Tanay Motghare" -->
+  <div class="green-strip"></div>
 
-<div class="square"></div>
+ 
 
-<div class="row">
+  <div class="row">
 
-<!-- PROTECTED IMAGE -->
-<div class="img-wrapper">
-  <img src="image/tanay_dp1.jpg" alt="Tanay" draggable="false">
+    <!-- PROTECTED IMAGE - original dimensions -->
+    <div class="img-wrapper">
+      <img src="image/tanay_dp1.jpg" alt="Tanay" draggable="false">
+    </div>
+
+    <div class="info">
+      <div class="name">Tanay Motghare</div>
+      <div class="title">
+        Graphic Designer
+      </div>
+      <div class="contact">
+        📧 tanaymotghare2001@gmail.com &nbsp;&nbsp;
+        👤 Tanay Motghare &nbsp;&nbsp;
+        📞 9894314981
+      </div>
+    </div>
+
+  </div>
+
+  <div class="desc">
+    Graphic Design graduate from Sir J.J. Institute of Applied Art, Mumbai, with experience in branding, advertising and product design. Skilled in print and packaging design, logo creation, web design, and visual storytelling. Experienced working in a creative advertising environment.
+  </div>
+
 </div>
 
-<div class="info">
-
-<div class="name">Tanay Motghare</div>
-
-<div class="title">
-Graphic Designer
-</div>
-
-<div class="contact">
-📧 tanaymotghare2001@gmail.com &nbsp;&nbsp;
-👤 Tanay Motghare &nbsp;&nbsp;
-📞 9894314981
-</div>
-
-</div>
-
-</div>
-
-<div class="desc">
-Graphic Design graduate from Sir J.J. Institute of Applied Art, Mumbai, with experience in branding, advertising and product design. Skilled in print and packaging design, logo creation, web design, and visual storytelling. Experienced working in a creative advertising environment.
-</div>
-
-</div>
+<script>
+  // Additional image protection: prevent right-click and drag specifically on image
+  const imgElement = document.querySelector('.img-wrapper img');
+  if (imgElement) {
+    imgElement.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
+    imgElement.addEventListener('dragstart', (e) => {
+      e.preventDefault();
+      return false;
+    });
+  }
+  
+  // Optional: subtle protection for key saves (non-intrusive)
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+    }
+  });
+  
+  // Function to get the exact position of the last letter 'e' in the name
+  function getLastLetterEPosition() {
+    const nameElement = document.querySelector('.name');
+    if (!nameElement) return null;
+    
+    const nameText = nameElement.textContent || "Tanay Motghare";
+    const container = document.querySelector('.container');
+    if (!container) return null;
+    
+    // Create a temporary span to measure the exact position of the last character
+    const tempSpan = document.createElement('span');
+    tempSpan.style.position = 'absolute';
+    tempSpan.style.visibility = 'hidden';
+    tempSpan.style.whiteSpace = 'pre';
+    tempSpan.style.fontSize = window.getComputedStyle(nameElement).fontSize;
+    tempSpan.style.fontFamily = window.getComputedStyle(nameElement).fontFamily;
+    tempSpan.style.fontWeight = window.getComputedStyle(nameElement).fontWeight;
+    tempSpan.style.letterSpacing = window.getComputedStyle(nameElement).letterSpacing;
+    tempSpan.style.font = window.getComputedStyle(nameElement).font;
+    
+    // Get the text up to the last character (the 'e')
+    const lastChar = nameText[nameText.length - 1];
+    const textBeforeLast = nameText.slice(0, -1);
+    
+    // Measure width of text without last character
+    tempSpan.textContent = textBeforeLast;
+    document.body.appendChild(tempSpan);
+    const widthWithoutLast = tempSpan.offsetWidth;
+    
+    // Measure width of the last character alone
+    tempSpan.textContent = lastChar;
+    const lastCharWidth = tempSpan.offsetWidth;
+    
+    document.body.removeChild(tempSpan);
+    
+    // Get the position of the name element relative to container
+    const containerRect = container.getBoundingClientRect();
+    const nameRect = nameElement.getBoundingClientRect();
+    
+    // Calculate the X position of the last letter's right edge
+    const nameLeftRelative = nameRect.left - containerRect.left;
+    const lastLetterRightRelative = nameLeftRelative + widthWithoutLast + lastCharWidth;
+    
+    return {
+      rightEdge: lastLetterRightRelative,
+      widthWithoutLast: widthWithoutLast,
+      lastCharWidth: lastCharWidth
+    };
+  }
+  
+  // Function to align green strip top with the "Graphic Designer" title strip
+  // And extend width exactly to the last letter 'e' of the name
+  function alignAndExtendGreenStrip() {
+    const greenStrip = document.querySelector('.green-strip');
+    const container = document.querySelector('.container');
+    const nameElement = document.querySelector('.name');
+    const titleElement = document.querySelector('.title');
+    
+    // Only run on desktop (mobile hides it anyway)
+    if (window.innerWidth <= 768) return;
+    
+    if (!greenStrip || !container) return;
+    
+    try {
+      // === PART 1: TOP ALIGNMENT with "Graphic Designer" title strip ===
+      if (titleElement) {
+        const containerRect = container.getBoundingClientRect();
+        const titleRect = titleElement.getBoundingClientRect();
+        
+        // Calculate the top position of the title element relative to container
+        const titleTopRelative = titleRect.top - containerRect.top;
+        
+        // Set green strip top to match title's top edge
+        // Add a small offset if needed for perfect alignment (title has padding, we want strip to align with top of green background)
+        // The title has background color, we want our strip to start exactly where the title's green background starts
+        greenStrip.style.top = titleTopRelative + 'px';
+      } else {
+        // Fallback position
+        greenStrip.style.top = '230px';
+      }
+      
+      // === PART 2: WIDTH EXTENSION to last letter 'e' of name ===
+      if (nameElement) {
+        const position = getLastLetterEPosition();
+        
+        if (position && position.rightEdge > 0) {
+          // Green strip starts at left: 20px from container edge
+          const stripLeft = 20;
+          
+          // Calculate width needed to reach the last letter's right edge
+          let targetWidth = position.rightEdge - stripLeft;
+          
+          // Add a tiny offset to exactly align with the end of the letter 'e'
+          targetWidth = targetWidth + 3;
+          
+          // Ensure width is within reasonable bounds
+          const maxWidth = container.offsetWidth - stripLeft - 10;
+          targetWidth = Math.min(targetWidth, maxWidth);
+          targetWidth = Math.max(targetWidth, 50);
+          
+          // Apply the width
+          greenStrip.style.width = targetWidth + 'px';
+        } else {
+          // Fallback: use full name width
+          const containerRect = container.getBoundingClientRect();
+          const nameRect = nameElement.getBoundingClientRect();
+          const nameRightRelative = nameRect.right - containerRect.left;
+          const stripLeft = 20;
+          let fallbackWidth = nameRightRelative - stripLeft + 2;
+          fallbackWidth = Math.min(fallbackWidth, container.offsetWidth - stripLeft - 10);
+          fallbackWidth = Math.max(fallbackWidth, 50);
+          greenStrip.style.width = fallbackWidth + 'px';
+        }
+      }
+      
+      // Ensure left position stays fixed
+      greenStrip.style.left = '20px';
+      
+    } catch (error) {
+      console.warn('Error aligning green strip:', error);
+      // Fallback positioning
+      greenStrip.style.top = '230px';
+      greenStrip.style.left = '20px';
+      greenStrip.style.width = '400px';
+    }
+  }
+  
+  // Debounce function for resize events
+  let resizeTimeout;
+  function debouncedResize() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      alignAndExtendGreenStrip();
+    }, 100);
+  }
+  
+  // Run on load with multiple delays to ensure fonts are loaded
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      alignAndExtendGreenStrip();
+    }, 50);
+    setTimeout(() => {
+      alignAndExtendGreenStrip();
+    }, 150);
+    setTimeout(() => {
+      alignAndExtendGreenStrip();
+    }, 300);
+    alignAndExtendGreenStrip();
+  });
+  
+  window.addEventListener('resize', debouncedResize);
+  
+  // Run after font loading
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      setTimeout(alignAndExtendGreenStrip, 30);
+      setTimeout(alignAndExtendGreenStrip, 100);
+    });
+  }
+  
+  // Observer for layout changes
+  const observer = new ResizeObserver(() => {
+    alignAndExtendGreenStrip();
+  });
+  
+  const nameElement = document.querySelector('.name');
+  const titleElement = document.querySelector('.title');
+  const container = document.querySelector('.container');
+  
+  if (nameElement) observer.observe(nameElement);
+  if (titleElement) observer.observe(titleElement);
+  if (container) observer.observe(container);
+  
+  // Run when image loads
+  if (imgElement) {
+    imgElement.addEventListener('load', () => {
+      setTimeout(alignAndExtendGreenStrip, 50);
+    });
+  }
+  
+  // Also run on any animation frame to ensure perfect alignment after reflows
+  let rafTimeout;
+  function runOnFrame() {
+    alignAndExtendGreenStrip();
+    rafTimeout = setTimeout(() => {
+      alignAndExtendGreenStrip();
+    }, 200);
+  }
+  
+  window.addEventListener('load', runOnFrame);
+  
+  // Final check after all resources
+  setTimeout(() => {
+    alignAndExtendGreenStrip();
+  }, 500);
+  
+  // Additional check for any font loading from Google Fonts
+  const linkElement = document.querySelector('link[href*="fonts.googleapis.com"]');
+  if (linkElement) {
+    linkElement.addEventListener('load', () => {
+      setTimeout(alignAndExtendGreenStrip, 100);
+      setTimeout(alignAndExtendGreenStrip, 300);
+    });
+  }
+</script>
 
 </body>
 </html>
