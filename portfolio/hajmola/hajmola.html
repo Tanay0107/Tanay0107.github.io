@@ -26,11 +26,21 @@ h1 {
   padding: 20px;
 }
 
+/* 🔥 ANIMATION ADDED */
 .gallery img {
   width: 100%;
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.3s;
+
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.gallery img.show {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
 .gallery img:hover {
@@ -81,6 +91,10 @@ h1 {
     font-size: 30px;
     padding: 10px;
   }
+  .gallery img {
+    height: 150px;
+    object-fit: cover;
+  }
 }
 </style>
 </head>
@@ -104,7 +118,6 @@ const USER = "Tanay0107";
 const REPO = "Tanay0107.github.io";
 const FOLDER = "portfolio/hajmola";
 
-// ✅ YOUR ACTUAL FILES
 const imageFiles = [
   "hording_banana.png",
   "hording_icecream.jpg",
@@ -124,7 +137,6 @@ const gallery = document.getElementById("gallery");
 imageFiles.forEach((file, index) => {
 
   const encodedFile = encodeURIComponent(file);
-
   const imageUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
 
   images.push(imageUrl);
@@ -138,6 +150,11 @@ imageFiles.forEach((file, index) => {
   };
 
   gallery.appendChild(img);
+
+  /* 🔥 STAGGER ANIMATION */
+  setTimeout(() => {
+    img.classList.add("show");
+  }, index * 120);
 });
 
 /* LIGHTBOX */
