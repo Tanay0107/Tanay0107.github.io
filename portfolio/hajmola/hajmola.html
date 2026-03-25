@@ -7,8 +7,8 @@
 
 <style>
 :root {
-  --dabur-green: #1f5c2c;   /* 🌿 dark green */
-  --accent-green: #000;  /* your light accent */
+  --dabur-green: #1f5c2c;
+  --accent-green: #c8e86b;
 }
 
 body {
@@ -21,50 +21,56 @@ body {
 h1 {
   text-align: center;
   padding: 25px;
-  color: #1f5c2c;
+  color: #000;
 }
 
-/* GALLERY */
+/* ✅ PERFECT 4x2 GRID */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 30px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* ✅ IMAGE FRAME (UPDATED GREEN BORDER) */
+/* IMAGE */
 .gallery img {
   width: 100%;
-  border-radius: 13px;
-  cursor: pointer;
+  height: 220px; /* ensures uniform grid */
+  object-fit: cover;
 
-  /* 🌿 DARK GREEN BORDER */
+  border-radius: 12px;
+  cursor: pointer;
   border: 3px solid var(--dabur-green);
 
-  /* ANIMATION */
-  transform: translateY(50px);
+  /* REMOVE ANY FILM EFFECT */
+  filter: none !important;
   opacity: 0;
+  transform: translateY(40px);
 }
 
-/* ANIMATION ACTIVE */
+/* SHOW ANIMATION */
 .gallery img.show {
-  transform: translateY(0);
   opacity: 1;
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  transform: translateY(0);
+  transition: all 0.5s ease;
 }
 
 /* HOVER */
 .gallery img:hover {
   transform: scale(1.05);
-  border-color: var(--accent-green); /* subtle highlight */
+  border-color: var(--accent-green);
 }
 
 /* LIGHTBOX */
 #lightbox {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.95);
   justify-content: center;
   align-items: center;
@@ -75,12 +81,10 @@ h1 {
   max-width: 90%;
   max-height: 90%;
   border-radius: 10px;
-
-  /* match border inside lightbox too */
   border: 3px solid var(--dabur-green);
 }
 
-/* BUTTONS */
+/* CONTROLS */
 #close {
   position: absolute;
   top: 20px;
@@ -103,15 +107,16 @@ h1 {
 #prev { left: 20px; }
 #next { right: 20px; }
 
-/* MOBILE */
-@media (max-width: 600px) {
-  #prev, #next {
-    font-size: 30px;
-    padding: 10px;
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .gallery img {
-    height: 150px;
-    object-fit: cover;
+}
+
+@media (max-width: 500px) {
+  .gallery {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -155,12 +160,12 @@ const gallery = document.getElementById("gallery");
 imageFiles.forEach((file, index) => {
 
   const encodedFile = encodeURIComponent(file);
-  const imageUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
+  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
 
-  images.push(imageUrl);
+  images.push(url);
 
   const img = document.createElement("img");
-  img.src = imageUrl;
+  img.src = url;
 
   img.onclick = () => {
     currentIndex = index;
@@ -171,7 +176,7 @@ imageFiles.forEach((file, index) => {
 
   setTimeout(() => {
     img.classList.add("show");
-  }, index * 120);
+  }, index * 100);
 });
 
 /* LIGHTBOX */
@@ -199,8 +204,7 @@ document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
 document.addEventListener("keydown", (e) => {
-  const lightbox = document.getElementById("lightbox");
-  if (lightbox.style.display === "flex") {
+  if (document.getElementById("lightbox").style.display === "flex") {
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") nextImg();
     if (e.key === "ArrowLeft") prevImg();
