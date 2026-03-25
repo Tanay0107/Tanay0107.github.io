@@ -24,7 +24,7 @@ h1 {
   color: #000;
 }
 
-/* ✅ PERFECT 4x2 GRID */
+/* ✅ 4 COLUMN GRID (NO FORCED HEIGHT) */
 .gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -32,25 +32,27 @@ h1 {
   padding: 30px;
   max-width: 1200px;
   margin: auto;
+  align-items: start; /* important */
 }
 
 /* IMAGE */
 .gallery img {
   width: 100%;
-  height: 220px; /* ensures uniform grid */
-  object-fit: cover;
+  height: auto; /* ✅ keep original ratio */
+  display: block;
 
   border-radius: 12px;
   cursor: pointer;
   border: 3px solid var(--dabur-green);
 
-  /* REMOVE ANY FILM EFFECT */
+  /* REMOVE ALL EFFECTS */
   filter: none !important;
+
   opacity: 0;
   transform: translateY(40px);
 }
 
-/* SHOW ANIMATION */
+/* ANIMATION */
 .gallery img.show {
   opacity: 1;
   transform: translateY(0);
@@ -59,7 +61,7 @@ h1 {
 
 /* HOVER */
 .gallery img:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
   border-color: var(--accent-green);
 }
 
