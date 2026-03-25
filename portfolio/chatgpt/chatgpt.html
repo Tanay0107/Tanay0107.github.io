@@ -11,8 +11,8 @@
 body {
   margin: 0;
   font-family: 'Montserrat', system-ui, sans-serif;
-  background: linear-gradient(120deg, #0f2027, #203a43);
-  color: white;
+  background: #ffffff;
+  color: #1a1a1a;
   overflow-x: hidden;
 }
 
@@ -21,9 +21,7 @@ h1 {
   padding: 25px;
   font-weight: 700;
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #26c9b2, #c8e86b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #000; /* solid black */
 }
 
 /* GALLERY */
@@ -34,27 +32,34 @@ h1 {
   padding: 30px;
 }
 
-.gallery img {
+/* BLACK BORDER FRAME */
+.gallery .img-wrap {
+  border-radius: 16px;
+  padding: 2.5px;
+  background: #000; /* black edge */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.09);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.gallery .img-wrap img {
+  border-radius: 13px;
   width: 100%;
-  border-radius: 15px;
-  cursor: pointer;
-  object-fit: cover;
   height: 200px;
+  object-fit: cover;
+  display: block;
+
   transform: translateY(50px);
   opacity: 0;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
-.gallery img.show {
-  transform: translateY(0);
-  opacity: 1;
+.gallery .img-wrap:hover {
+  transform: scale(1.05) rotate(0.8deg);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 
-.gallery img:hover {
-  transform: scale(1.08) rotate(1deg);
-  box-shadow: 0 15px 25px rgba(0,0,0,0.7);
-  filter: brightness(1.1);
+.gallery .img-wrap:hover img {
+  filter: brightness(0.96);
 }
 
 /* LIGHTBOX */
@@ -63,7 +68,7 @@ h1 {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.95);
+  background: rgba(0,0,0,0.92);
   justify-content: center;
   align-items: center;
   z-index: 999;
@@ -75,7 +80,6 @@ h1 {
   border-radius: 10px;
 }
 
-/* CLOSE BUTTON */
 #close {
   position: absolute;
   top: 20px;
@@ -85,11 +89,8 @@ h1 {
   color: #c8e86b;
 }
 
-#close:hover {
-  transform: scale(1.2);
-}
+#close:hover { transform: scale(1.2); }
 
-/* PREVIOUS / NEXT ARROWS from second page */
 #prev, #next {
   position: absolute;
   top: 50%;
@@ -103,13 +104,9 @@ h1 {
 #prev { left: 20px; }
 #next { right: 20px; }
 
-/* MOBILE */
 @media (max-width: 600px) {
-  #prev, #next {
-    font-size: 35px;
-    padding: 10px;
-  }
-  .gallery img { height: 150px; }
+  #prev, #next { font-size: 35px; padding: 10px; }
+  .gallery .img-wrap img { height: 150px; }
 }
 </style>
 </head>
@@ -118,7 +115,7 @@ h1 {
 
 <h1>ChatGPT Ad Campaign</h1>
 
-<div id="loading" class="loading">Loading images...</div>
+<div id="loading">Loading images...</div>
 <div class="gallery" id="gallery"></div>
 
 <!-- LIGHTBOX -->
@@ -155,24 +152,28 @@ const imageFiles = [
 let images = [];
 let currentIndex = 0;
 const gallery = document.getElementById("gallery");
-const loading = document.getElementById("loading");
-loading.style.display = "none";
+document.getElementById("loading").style.display = "none";
 
-// Add images to gallery with staggered animation
 imageFiles.forEach((file, index) => {
   const encodedFile = encodeURIComponent(file);
   const imageUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
   images.push(imageUrl);
 
+  const wrap = document.createElement("div");
+  wrap.className = "img-wrap";
+
   const img = document.createElement("img");
   img.src = imageUrl;
   img.onerror = () => console.error("Failed:", imageUrl);
-
   img.onclick = () => { currentIndex = index; openLightbox(); };
-  gallery.appendChild(img);
 
-  // Animate in with delay
-  setTimeout(() => img.classList.add("show"), index * 100);
+  wrap.appendChild(img);
+  gallery.appendChild(wrap);
+
+  setTimeout(() => {
+    img.style.transform = "translateY(0)";
+    img.style.opacity = "1";
+  }, index * 100);
 });
 
 /* LIGHTBOX */
@@ -183,17 +184,24 @@ function openLightbox() {
   document.getElementById("lightbox-img").src = images[currentIndex];
 }
 
-function closeLightbox() { document.getElementById("lightbox").style.display = "none"; }
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
 
-function nextImg() { currentIndex = (currentIndex + 1) % images.length; document.getElementById("lightbox-img").src = images[currentIndex]; }
+function nextImg() {
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
 
-function prevImg() { currentIndex = (currentIndex - 1 + images.length) % images.length; document.getElementById("lightbox-img").src = images[currentIndex]; }
+function prevImg() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
 
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
   const lightbox = document.getElementById("lightbox");
   if (lightbox.style.display === "flex") {
@@ -203,10 +211,18 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-/* TOUCH SWIPE */
-lightbox.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; });
-lightbox.addEventListener("touchend", (e) => { endX = e.changedTouches[0].clientX; handleSwipe(); });
-function handleSwipe() { let diff = startX - endX; if (Math.abs(diff) > 50) diff > 0 ? nextImg() : prevImg(); }
+/* SWIPE SUPPORT */
+const lightbox = document.getElementById("lightbox");
+
+lightbox.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend", (e) => {
+  endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+  if (Math.abs(diff) > 50) diff > 0 ? nextImg() : prevImg();
+});
 </script>
 
 </body>
