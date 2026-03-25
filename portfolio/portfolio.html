@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tanay Portfolio</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
 <style>
 * {
   margin: 0;
@@ -14,78 +12,94 @@
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
 }
-
 body {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
+  overflow: hidden;
+  background: #ffffff;
 }
-
+/* BACKGROUND BLOBS — pure green, no yellow */
+body::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(100, 200, 120, 0.22), transparent 70%);
+  top: -150px;
+  left: -150px;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(100, 200, 120, 0.18), transparent 70%);
+  bottom: -100px;
+  right: -100px;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
 .container {
   text-align: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
 }
-
 h1 {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   font-weight: 600;
   letter-spacing: 1px;
+  color: #1a2e1a;
 }
-
 .buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 150px);
-  gap: 20px;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
 }
-
 .btn {
+  width: 220px;
   padding: 18px;
   border-radius: 16px;
-  border: none;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  color: white;
-  transition: 0.3s ease;
+  background: #c8e86b;
+  color: #1a2e1a;
+  border: none;
+  box-shadow: 0 4px 16px rgba(150, 200, 80, 0.3);
+  transition: all 0.3s ease;
 }
-
 .btn:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.2);
+  transform: translateY(-6px);
+  background: #bfde55;
+  box-shadow: 0 10px 28px rgba(150, 200, 80, 0.45);
 }
-
-/* Individual styles */
-.chatgpt { border: 1px solid #00ffae; }
-.hajmola { border: 1px solid #ffcc00; }
-.logo { border: 1px solid #ff4d6d; }
-.mini { border: 1px solid #8a2be2; }
-
+@media (max-width: 500px) {
+  .btn { width: 180px; }
+}
 </style>
 </head>
-
 <body>
-
 <div class="container">
   <h1>My Portfolio</h1>
-
   <div class="buttons">
-    <button class="btn chatgpt" onclick="openPage('chatgpt/chatgpt.html')">ChatGPT</button>
-    <button class="btn hajmola" onclick="openPage('hajmola/hajmola.html')">Hajmola</button>
-    <button class="btn logo" onclick="openPage('logo/logo.html')">Logo</button>
-    <button class="btn mini" onclick="openPage('mimi/mini.html')">Sandisk</button>
+    <button class="btn" onclick="openPage('chatgpt/chatgpt.html')">ChatGPT</button>
+    <button class="btn" onclick="openPage('hajmola/hajmola.html')">Hajmola</button>
+    <button class="btn" onclick="openPage('logo/logo.html')">Logo</button>
+    <button class="btn" onclick="openPage('mimi/mini.html')">Sandisk</button>
   </div>
 </div>
-
 <script>
 function openPage(page) {
   window.location.href = page;
 }
 </script>
-
 </body>
 </html>
