@@ -6,47 +6,71 @@
 <title>Logo Project</title>
 
 <style>
+:root {
+  --dabur-green: #1f5c2c;
+  --accent-green: #000;
+}
+
 body {
   margin: 0;
   font-family: system-ui;
-  background: #0f2027;
-  color: white;
+  background: #ffffff;
+  color: var(--dabur-green);
 }
 
 h1 {
   text-align: center;
-  padding: 30px;
-  font-size: 28px;
-  letter-spacing: 1px;
+  padding: 25px;
+  color: var(--dabur-green);
 }
 
 /* GRID */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px; /* ✅ REAL GAP */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
   padding: 30px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* CARD (IMPORTANT FIX) */
+/* OPTIMAL CARD (NOT STRICT SQUARE) */
 .card {
   background: white;
-  padding: 25px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  transition: 0.3s;
+  border: 3px solid var(--dabur-green);
   cursor: pointer;
+
+  aspect-ratio: 4 / 3; /* 🔥 optimal square feel */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+
+  opacity: 0;
+  transform: translateY(40px);
 }
 
-/* HOVER */
-.card:hover {
-  transform: translateY(-6px) scale(1.03);
+/* ANIMATION */
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
 }
 
 /* IMAGE */
 .card img {
-  width: 100%;
-  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* HOVER */
+.card:hover {
+  transform: scale(1.04);
+  border-color: var(--accent-green);
 }
 
 /* LIGHTBOX */
@@ -65,16 +89,19 @@ h1 {
   max-width: 90%;
   max-height: 90%;
   background: white;
-  padding: 25px;
+  padding: 20px;
   border-radius: 12px;
+  border: 3px solid var(--dabur-green);
 }
 
+/* CONTROLS */
 #close {
   position: absolute;
   top: 20px;
   right: 30px;
   font-size: 40px;
   cursor: pointer;
+  color: var(--accent-green);
 }
 
 #prev, #next {
@@ -84,19 +111,22 @@ h1 {
   font-size: 50px;
   cursor: pointer;
   padding: 20px;
+  color: var(--accent-green);
 }
 
 #prev { left: 20px; }
 #next { right: 20px; }
 
-/* MOBILE */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 22px;
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
   }
-  #prev, #next {
-    font-size: 30px;
-    padding: 10px;
+}
+
+@media (max-width: 500px) {
+  .gallery {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -121,7 +151,6 @@ const USER = "Tanay0107";
 const REPO = "Tanay0107.github.io";
 const FOLDER = "portfolio/logo";
 
-// YOUR FILES
 const imageFiles = [
   "anti raggingV1-01.jpg",
   "anti raggingV1-02.jpg",
@@ -140,16 +169,15 @@ const gallery = document.getElementById("gallery");
 imageFiles.forEach((file, index) => {
 
   const encodedFile = encodeURIComponent(file);
-  const imageUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
+  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
 
-  images.push(imageUrl);
+  images.push(url);
 
-  // 🔥 CARD STRUCTURE
   const card = document.createElement("div");
   card.className = "card";
 
   const img = document.createElement("img");
-  img.src = imageUrl;
+  img.src = url;
 
   card.onclick = () => {
     currentIndex = index;
@@ -158,6 +186,10 @@ imageFiles.forEach((file, index) => {
 
   card.appendChild(img);
   gallery.appendChild(card);
+
+  setTimeout(() => {
+    card.classList.add("show");
+  }, index * 120);
 });
 
 /* LIGHTBOX */
@@ -180,15 +212,240 @@ function prevImg() {
   document.getElementById("lightbox-img").src = images[currentIndex];
 }
 
-/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
-  const lightbox = document.getElementById("lightbox");
-  if (lightbox.style.display === "flex") {
+  if (document.getElementById("lightbox").style.display === "flex") {
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") nextImg();
+    if (e.key === "ArrowLeft") prevImg();
+  }
+});
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Project</title>
+
+<style>
+:root {
+  --dabur-green: #1f5c2c;
+  --accent-green: #000;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: #ffffff;
+  color: var(--dabur-green);
+}
+
+h1 {
+  text-align: center;
+  padding: 25px;
+  color: var(--dabur-green);
+}
+
+/* GRID */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* OPTIMAL CARD (NOT STRICT SQUARE) */
+.card {
+  background: white;
+  border-radius: 16px;
+  border: 3px solid var(--dabur-green);
+  cursor: pointer;
+
+  aspect-ratio: 4 / 3; /* 🔥 optimal square feel */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* ANIMATION */
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+/* IMAGE */
+.card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* HOVER */
+.card:hover {
+  transform: scale(1.04);
+  border-color: var(--accent-green);
+}
+
+/* LIGHTBOX */
+#lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 3px solid var(--dabur-green);
+}
+
+/* CONTROLS */
+#close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  cursor: pointer;
+  color: var(--accent-green);
+}
+
+#prev, #next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  cursor: pointer;
+  padding: 20px;
+  color: var(--accent-green);
+}
+
+#prev { left: 20px; }
+#next { right: 20px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Logo Project</h1>
+
+<div class="gallery" id="gallery"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="close">&times;</span>
+  <span id="prev">&#10094;</span>
+  <img id="lightbox-img">
+  <span id="next">&#10095;</span>
+</div>
+
+<script>
+const USER = "Tanay0107";
+const REPO = "Tanay0107.github.io";
+const FOLDER = "portfolio/logo";
+
+const imageFiles = [
+  "anti raggingV1-01.jpg",
+  "anti raggingV1-02.jpg",
+  "anti raggingV1-03.jpg",
+  "Club Convesasion-31.jpg",
+  "Club Convesasion-30-30.jpg",
+  "Club Convesasion-32.jpg",
+  "CPL_logo_final-01.jpg"
+];
+
+let images = [];
+let currentIndex = 0;
+
+const gallery = document.getElementById("gallery");
+
+imageFiles.forEach((file, index) => {
+
+  const encodedFile = encodeURIComponent(file);
+  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
+
+  images.push(url);
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const img = document.createElement("img");
+  img.src = url;
+
+  card.onclick = () => {
+    currentIndex = index;
+    openLightbox();
+  };
+
+  card.appendChild(img);
+  gallery.appendChild(card);
+
+  setTimeout(() => {
+    card.classList.add("show");
+  }, index * 120);
+});
+
+/* LIGHTBOX */
+function openLightbox() {
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+
+function nextImg() {
+  currentIndex = (currentIndex + 1) % images.length;
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
+
+function prevImg() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  document.getElementById("lightbox-img").src = images[currentIndex];
+}
+
+document.getElementById("close").onclick = closeLightbox;
+document.getElementById("next").onclick = nextImg;
+document.getElementById("prev").onclick = prevImg;
+
+document.addEventListener("keydown", (e) => {
+  if (document.getElementById("lightbox").style.display === "flex") {
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") nextImg();
     if (e.key === "ArrowLeft") prevImg();
