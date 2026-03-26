@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tanay Motghare | Graphic Designer</title>
+<title>Tanay Motghare</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -20,7 +20,9 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 60px;
 }
+
 
 /* GLASS CONTAINER */
 .container{
@@ -278,7 +280,63 @@ body{
   }
 }
 
+/* LOCKED FOOTER */
+.footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+  z-index: 999;
+}
 
+.footer::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+  animation: lineFlow 3s ease-in-out infinite;
+}
+
+@keyframes lineFlow{
+  0%{
+    width: 0%;
+    left: 0;
+  }
+  50%{
+    width: 100%;
+    left: 0;
+  }
+  100%{
+    width: 0%;
+    left: 100%;
+  }
+}
+
+/* CONTENT */
+.footer-content{
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 1px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* COOL HOVER EFFECT */
+.footer-content:hover{
+  color: var(--accent-green);
+  text-shadow: 0 0 10px rgba(200,232,107,0.7);
+  letter-spacing: 2px;
+}
 
 </style>
 </head>
@@ -548,6 +606,12 @@ body{
     });
   }
 </script>
+
+<footer class="footer">
+  <div class="footer-content">
+    © Tanay Motghare
+  </div>
+</footer>
 
 </body>
 </html>
