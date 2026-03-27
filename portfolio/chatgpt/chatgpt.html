@@ -7,10 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+:root {
+  --accent: #26C9B2;
+}
+
+/* BASE */
 body {
   margin: 0;
   font-family: 'Montserrat', system-ui, sans-serif;
-  background: #ffffff;
+  background: #fff;
   color: #1a1a1a;
 }
 
@@ -28,12 +33,22 @@ h1 {
   padding: 30px;
 }
 
+/* CARD */
 .img-wrap {
   border-radius: 16px;
   padding: 2.5px;
   background: #000;
   overflow: hidden;
-  transition: transform 0.3s ease;
+
+  transform: translateY(30px) scale(0.98);
+  opacity: 0;
+
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.img-wrap.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
 }
 
 .img-wrap img {
@@ -42,6 +57,7 @@ h1 {
   object-fit: cover;
   border-radius: 13px;
   cursor: pointer;
+
   transition: transform 0.4s ease;
 }
 
@@ -52,20 +68,29 @@ h1 {
 /* LIGHTBOX */
 #lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  overflow: hidden;
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
-/* SLIDER TRACK */
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* SLIDER */
 .slider {
   display: flex;
   height: 100%;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+  transition: transform 0.5s ease;
 }
 
 .slide {
@@ -77,38 +102,40 @@ h1 {
 
 .slide img {
   max-width: 90%;
-  max-height: 85%;
+  max-height: 90%;
   border-radius: 12px;
-  transition: transform 0.4s ease;
+
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+#lightbox.active img {
+  transform: scale(1);
+  opacity: 1;
 }
 
 /* CONTROLS */
-#close {
+.control {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  color: white;
   font-size: 40px;
-  color: #c8e86b;
   cursor: pointer;
-  z-index: 10;
+  user-select: none;
+  transition: transform 0.2s ease;
 }
 
-.nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 50px;
-  color: #26C9B2;
-  cursor: pointer;
-  z-index: 10;
+.control:hover {
+  transform: scale(1.2);
 }
 
-#prev { left: 20px; }
-#next { right: 20px; }
+#close { top: 20px; right: 30px; }
+#prev { left: 20px; top: 50%; transform: translateY(-50%); color:#26C9B2}
+#next { right: 20px; top: 50%; transform: translateY(-50%); color:#26C9B2}
 
 @media (max-width: 600px) {
   .img-wrap img { height: 150px; }
-  .nav { font-size: 35px; }
+  .control { font-size: 30px; }
 }
 </style>
 </head>
@@ -121,11 +148,12 @@ h1 {
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
-  <span id="close">&times;</span>
-  <span id="prev" class="nav">&#10094;</span>
-  <span id="next" class="nav">&#10095;</span>
+  <span class="control" id="close">&times;</span>
+  <span class="control" id="prev">&#10094;</span>
 
   <div class="slider" id="slider"></div>
+
+  <span class="control" id="next">&#10095;</span>
 </div>
 
 <script>
@@ -153,27 +181,40 @@ const imageFiles = [
 
 const gallery = document.getElementById("gallery");
 const slider = document.getElementById("slider");
+const lightbox = document.getElementById("lightbox");
 
 let currentIndex = 0;
+let images = [];
 let startX = 0;
-let isDragging = false;
 
-/* CREATE GALLERY + SLIDES */
+/* CREATE UI */
 imageFiles.forEach((file, index) => {
   const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
+  images.push(url);
 
-  // Gallery
+  // CARD
   const wrap = document.createElement("div");
   wrap.className = "img-wrap";
 
   const img = document.createElement("img");
   img.src = url;
-  img.onclick = () => openLightbox(index);
+  img.loading = "lazy";
+  img.decoding = "async";
+
+  img.onclick = () => {
+    currentIndex = index;
+    openLightbox();
+  };
 
   wrap.appendChild(img);
   gallery.appendChild(wrap);
 
-  // Slider
+  // ANIMATION
+  requestAnimationFrame(() => {
+    setTimeout(() => wrap.classList.add("show"), index * 80);
+  });
+
+  // SLIDE
   const slide = document.createElement("div");
   slide.className = "slide";
 
@@ -184,63 +225,74 @@ imageFiles.forEach((file, index) => {
   slider.appendChild(slide);
 });
 
-/* OPEN */
-function openLightbox(index) {
-  currentIndex = index;
-  document.getElementById("lightbox").style.display = "block";
+/* LIGHTBOX */
+function openLightbox() {
+  lightbox.classList.add("active");
   updateSlider();
 }
 
-/* CLOSE */
-document.getElementById("close").onclick = () => {
-  document.getElementById("lightbox").style.display = "none";
-};
+function closeLightbox() {
+  lightbox.classList.remove("active");
+}
 
-/* UPDATE POSITION */
+/* SLIDE UPDATE */
 function updateSlider() {
   slider.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
 
-/* NAVIGATION */
+/* NAV */
 function next() {
-  currentIndex = (currentIndex + 1) % imageFiles.length;
+  currentIndex = (currentIndex + 1) % images.length;
   updateSlider();
 }
 
 function prev() {
-  currentIndex = (currentIndex - 1 + imageFiles.length) % imageFiles.length;
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
   updateSlider();
 }
 
+/* CONTROLS */
+document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = next;
 document.getElementById("prev").onclick = prev;
 
+/* CLICK OUTSIDE */
+lightbox.addEventListener("click", e => {
+  if (e.target === lightbox) closeLightbox();
+});
+
 /* KEYBOARD */
-document.addEventListener("keydown", (e) => {
-  if (document.getElementById("lightbox").style.display === "block") {
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
-    if (e.key === "Escape") close();
-  }
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("active")) return;
+
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") next();
+  if (e.key === "ArrowLeft") prev();
 });
 
 /* SWIPE */
-slider.addEventListener("touchstart", e => {
+lightbox.addEventListener("touchstart", e => {
   startX = e.touches[0].clientX;
-  isDragging = true;
 });
 
-slider.addEventListener("touchend", e => {
-  if (!isDragging) return;
-
+lightbox.addEventListener("touchend", e => {
   let diff = startX - e.changedTouches[0].clientX;
 
   if (Math.abs(diff) > 50) {
     diff > 0 ? next() : prev();
   }
-
-  isDragging = false;
 });
+
+/* PRELOAD NEXT (SMOOTH AF) */
+function preload(index) {
+  const img = new Image();
+  img.src = images[index];
+}
+
+setInterval(() => {
+  preload((currentIndex + 1) % images.length);
+}, 1000);
+
 </script>
 
 </body>
