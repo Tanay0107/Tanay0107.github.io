@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,10 +17,10 @@ body {
   color: var(--dabur-green);
 }
 
+/* TITLE */
 h1 {
   text-align: center;
   padding: 25px;
-  color: var(--dabur-green);
 }
 
 /* GRID */
@@ -38,38 +37,44 @@ h1 {
 .card {
   background: white;
   border-radius: 16px;
-  border: 3px solid var(--dabur-green);
-  cursor: pointer;
-
-  aspect-ratio: 4 / 3;
-
+  border: 2px solid var(--dabur-green);
+  aspect-ratio: 4/3;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
+  overflow: hidden;
 
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(40px) scale(0.96);
+  transition: all 0.6s ease;
+  will-change: transform, opacity;
 }
 
-/* ANIMATION */
 .card.show {
   opacity: 1;
-  transform: translateY(0);
-  transition: all 0.5s ease;
+  transform: translateY(0) scale(1);
 }
 
 /* IMAGE */
 .card img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  border-radius: 10px;
+
+  filter: blur(12px);
+  transform: scale(1.05);
+  transition: all 0.6s ease;
+}
+
+/* loaded image */
+.card img.loaded {
+  filter: blur(0);
+  transform: scale(1);
 }
 
 /* HOVER */
 .card:hover {
-  transform: scale(1.04);
+  transform: scale(1.05);
   border-color: var(--accent-green);
 }
 
@@ -77,12 +82,19 @@ h1 {
 #lightbox {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.95);
   justify-content: center;
   align-items: center;
   z-index: 999;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#lightbox.active {
+  display: flex;
+  opacity: 1;
 }
 
 #lightbox img {
@@ -92,6 +104,7 @@ h1 {
   padding: 20px;
   border-radius: 12px;
   border: 3px solid var(--dabur-green);
+  transition: transform 0.3s ease;
 }
 
 /* CONTROLS */
@@ -101,7 +114,7 @@ h1 {
   right: 30px;
   font-size: 40px;
   cursor: pointer;
-  color: var(--accent-green);
+  color: white;
 }
 
 #prev, #next {
@@ -111,7 +124,7 @@ h1 {
   font-size: 50px;
   cursor: pointer;
   padding: 20px;
-  color: var(--accent-green);
+  color: #26C9B2;
 }
 
 #prev { left: 20px; }
@@ -166,62 +179,108 @@ let currentIndex = 0;
 
 const gallery = document.getElementById("gallery");
 
+/* CREATE CARDS */
 imageFiles.forEach((file, index) => {
 
-  const encodedFile = encodeURIComponent(file);
-  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
-
+  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
   images.push(url);
 
   const card = document.createElement("div");
   card.className = "card";
 
   const img = document.createElement("img");
-  img.src = url;
+  img.dataset.src = url;
+  img.loading = "lazy";
+
+  card.appendChild(img);
+  gallery.appendChild(card);
 
   card.onclick = () => {
     currentIndex = index;
     openLightbox();
   };
-
-  card.appendChild(img);
-  gallery.appendChild(card);
-
-  setTimeout(() => {
-    card.classList.add("show");
-  }, index * 120);
 });
 
+/* LAZY LOAD + SMOOTH ENTRY */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const card = entry.target;
+      const img = card.querySelector("img");
+
+      img.src = img.dataset.src;
+
+      img.onload = () => img.classList.add("loaded");
+
+      card.classList.add("show");
+      observer.unobserve(card);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll(".card").forEach(card => observer.observe(card));
+
 /* LIGHTBOX */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+function preload(index) {
+  const img = new Image();
+  img.src = images[index];
+}
+
 function openLightbox() {
-  document.getElementById("lightbox").style.display = "flex";
-  document.getElementById("lightbox-img").src = images[currentIndex];
+  lightbox.classList.add("active");
+  updateImage();
 }
 
 function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
+  lightbox.classList.remove("active");
+}
+
+function updateImage() {
+  lightboxImg.src = images[currentIndex];
+
+  preload((currentIndex + 1) % images.length);
+  preload((currentIndex - 1 + images.length) % images.length);
 }
 
 function nextImg() {
   currentIndex = (currentIndex + 1) % images.length;
-  document.getElementById("lightbox-img").src = images[currentIndex];
+  updateImage();
 }
 
 function prevImg() {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
-  document.getElementById("lightbox-img").src = images[currentIndex];
+  updateImage();
 }
 
+/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
+/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
-  if (document.getElementById("lightbox").style.display === "flex") {
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowRight") nextImg();
-    if (e.key === "ArrowLeft") prevImg();
-  }
+  if (!lightbox.classList.contains("active")) return;
+
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") nextImg();
+  if (e.key === "ArrowLeft") prevImg();
+});
+
+/* SWIPE SUPPORT */
+let startX = 0;
+
+lightbox.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+
+  if (startX - endX > 50) nextImg();
+  if (endX - startX > 50) prevImg();
 });
 </script>
 
