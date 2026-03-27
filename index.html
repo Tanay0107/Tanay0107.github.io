@@ -1,37 +1,44 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tanay Motghare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>Tanay Motghare | Graphic Designer</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
-  --accent-green: #c8e86b;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:'Montserrat', sans-serif;
-  background:#6b6b6b;
+:root {
+  --accent-green: #c8e86b;
+  --dark-bg: #6b6b6b;
+  --card-bg: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: var(--dark-bg);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 60px;
+  padding: 40px 20px 80px 20px;
 }
 
-
-/* GLASS CONTAINER */
-.container{
-  max-width: 900px;
-  width: 90%;
-  margin: 80px auto;
+/* GLASS CONTAINER - FULLY RESPONSIVE */
+.container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
   padding: 50px;
   position: relative;
-  background: white;
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 20px 50px rgba(0,0,0,0.3);
@@ -40,8 +47,8 @@ body{
   overflow: hidden;
 }
 
-/* PORTFOLIO RIBBON - ORIGINAL STYLE */
-.portfolio-btn{
+/* PORTFOLIO RIBBON - ORIGINAL VERTICAL STYLE (DESKTOP) */
+.portfolio-btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -57,9 +64,11 @@ body{
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
   z-index: 10;
+  font-size: 14px;
+  line-height: 1.2;
 }
 
-.portfolio-btn::after{
+.portfolio-btn::after {
   content: "";
   position: absolute;
   bottom: -10px;
@@ -69,13 +78,13 @@ body{
   border-color: #a3c94f transparent transparent transparent;
 }
 
-.portfolio-btn:hover{
+.portfolio-btn:hover {
   background: #b2d94f;
   padding-right: 12px;
 }
 
 /* BACKGROUND BLOCKS - ORIGINAL */
-.bg-dark{
+.bg-dark {
   position: absolute;
   left: -60px;
   top: -60px;
@@ -85,7 +94,7 @@ body{
   z-index: 0;
 }
 
-.bg-top{
+.bg-top {
   position: absolute;
   top: -60px;
   left: 150px;
@@ -95,22 +104,21 @@ body{
   z-index: 0;
 }
 
-/* GREEN ACCENT STRIP - TOP ALIGNED WITH "Graphic Designer" TITLE STRIP */
-/* Now positioned to match the top edge of the title strip */
-.green-strip{
+/* GREEN ACCENT STRIP - DYNAMICALLY POSITIONED */
+.green-strip {
   position: absolute;
   background: var(--accent-green);
   height: 39px;
-  left:  20px;
-  
+  left: 20px;
   z-index: 1;
   width: 0;
-  transition: width 0.15s ease, top 0.1s ease;
+  transition: width 0.2s ease, top 0.1s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  pointer-events: none;
 }
 
-/* LAYOUT - BOTTOM ALIGNMENT */
-.row{
+/* LAYOUT - PRESERVES DESKTOP ALIGNMENT, ADAPTS ON MOBILE */
+.row {
   display: flex;
   gap: 40px;
   align-items: flex-end;
@@ -119,27 +127,29 @@ body{
   z-index: 2;
 }
 
-/* IMAGE WRAPPER (PROTECTION) - ORIGINAL STYLE */
+/* IMAGE WRAPPER - ORIGINAL STYLE */
+.img-wrapper {
+  flex-shrink: 0;
+}
 
-.img-wrapper img{
+.img-wrapper img {
   width: 220px;
   height: 280px;
-  object-fit: cover; /* keeps it clean */
+  object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
   transform-origin: bottom center;
+  display: block;
 }
 
-.img-wrapper:hover img{
-  transform: scale(1.03); /* smooth zoom */
-  box-shadow: 0 0 40px grey;
+.img-wrapper:hover img {
+  transform: scale(1.03);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
 }
 
-
-/* INFO SECTION - aligned bottom with image */
-.info{
+/* INFO SECTION - BOTTOM ALIGNED WITH IMAGE */
+.info {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -149,8 +159,8 @@ body{
   z-index: 2;
 }
 
-/* NAME STYLE - keep original colors */
-.name{
+/* NAME STYLE - KEEP ORIGINAL COLORS */
+.name {
   font-size: 50px;
   color: #64c5df;
   margin: 0;
@@ -159,10 +169,11 @@ body{
   position: relative;
   background: transparent;
   display: inline-block;
+  width: fit-content;
 }
 
-/* TITLE - original green pill style */
-.title{
+/* TITLE - ORIGINAL GREEN PILL STYLE */
+.title {
   font-size: 25px;
   padding: 10px 16px;
   width: fit-content;
@@ -170,21 +181,32 @@ body{
   margin-top: 10px;
   border-radius: 3px;
   position: relative;
+  background: rgba(200, 232, 107, 0.2);
+  display: inline-block;
 }
 
-/* CONTACT - original style */
-
-
-.contact{
+/* CONTACT - ORIGINAL STYLE */
+.contact {
   font-size: 16px;
   line-height: 1.6;
-  text-align: center;
+  text-align: left;
   max-width: 100%;
   word-break: break-word;
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
 }
 
-/* DESCRIPTION - original style */
-.desc{
+.contact span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* DESCRIPTION - ORIGINAL STYLE */
+.desc {
   margin-top: 30px;
   font-size: 16px;
   color: #333;
@@ -193,112 +215,185 @@ body{
   z-index: 2;
 }
 
-/* MOBILE RESPONSIVE - preserve original styling */
-@media (max-width: 768px){
-  .container{
-    padding: 30px;
-    margin: 40px 20px;
+/* ============================================ */
+/* MOBILE RESPONSIVE - PRESERVE VERTICAL PORTFOLIO BUTTON */
+/* Desktop layout unchanged, only spacing adjustments for small screens */
+/* Portfolio button remains VERTICAL on mobile as requested */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 16px 70px 16px;
+    align-items: flex-start;
   }
   
-  .row{
+  .container {
+    padding: 30px 24px;
+    margin: 0;
+    width: 100%;
+  }
+  
+  /* PRESERVE ROW AS FLEX WITH COLUMN DIRECTION BUT KEEP BOTTOM ALIGNMENT LOGIC */
+  .row {
     flex-direction: column;
     align-items: center;
+    gap: 24px;
+  }
+  
+  /* INFO SECTION CENTERED ON MOBILE TO MATCH VISUAL BALANCE */
+  .info {
+    align-items: center;
+    text-align: center;
+    padding-bottom: 0;
+    width: 100%;
+  }
+  
+  /* IMAGE SLIGHTLY SMALLER BUT PROPORTIONAL */
+  .img-wrapper img {
+    width: 180px;
+    height: 230px;
+  }
+  
+  /* NAME SIZE ADJUSTED FOR MOBILE BUT STYLE PRESERVED */
+  .name {
+    font-size: 32px;
+    text-align: center;
+    width: auto;
+    display: block;
+  }
+  
+  /* TITLE CENTERED */
+  .title {
+    font-size: 18px;
+    padding: 8px 20px;
+    margin: 8px auto 0 auto;
     text-align: center;
   }
   
-  .info{
-    font-size:20px;
-    align-items: center;
+  /* CONTACT STACK ON MOBILE FOR BETTER READABILITY */
+  .contact {
+    font-size: 14px;
     justify-content: center;
-    padding-bottom: 0;
-  }
-  
-  .img-wrapper img{
-    width: 180px;
-    height: 220px;
-  }
-  
-  .name{
-    margin-top: 3px;
-    font-size: 28px;
-  }
-  
-  .title{
-    margin: 10px auto 0 auto;
-    font-size: 18px;
-  }
-  
-  .contact{
-    font-size: 17px;
+    text-align: center;
+    flex-direction: column;
+    gap: 8px;
     margin-top: 12px;
   }
   
-  .desc{
-    font-size: 12
-    px;
+  .contact span {
+    justify-content: center;
   }
   
+  /* DESCRIPTION TEXT SIZE ADJUSTED FOR READABILITY */
+  .desc {
+    font-size: 14px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  
+  /* HIDE BACKGROUND BLOCKS ON MOBILE */
   .bg-dark,
-  .bg-top{
+  .bg-top {
     display: none;
   }
   
-  .green-strip{
+  /* GREEN STRIP HIDDEN ON MOBILE (DESIGN DECISION FOR CLEAN LAYOUT) */
+  .green-strip {
     display: none;
   }
   
-  .portfolio-btn{
-    top: 10px;
-    right: 10px;
-    writing-mode: horizontal-tb;
-    padding: 8px 14px;
-    border-radius: 6px;
+  /* ============================================ */
+  /* PORTFOLIO BUTTON - REMAINS VERTICAL ON MOBILE */
+  /* Keeps the original vertical orientation exactly like desktop */
+  /* ============================================ */
+  .portfolio-btn {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    top: 0;
+    right: 0;
+    padding: 18px 8px;
+    border-radius: 0 12px 0 12px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   }
   
-  .portfolio-btn::after{
-    display: none;
+  .portfolio-btn::after {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    right: 0;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #a3c94f transparent transparent transparent;
+  }
+  
+  .portfolio-btn:hover {
+    padding-right: 8px;
+    background: var(--accent-green);
   }
 }
 
-/* Tablet and medium screen adjustments */
+/* TABLET AND MEDIUM SCREEN ADJUSTMENTS - PRESERVE DESKTOP LAYOUT STYLE */
 @media (min-width: 769px) and (max-width: 950px) {
+  .container {
+    padding: 40px 35px;
+  }
+  
   .row {
     gap: 30px;
   }
+  
   .name {
     font-size: 42px;
   }
+  
   .img-wrapper img {
     width: 200px;
     height: 260px;
   }
+  
+  .title {
+    font-size: 22px;
+  }
+  
   .desc {
-    font-size: 17px;
+    font-size: 15px;
   }
 }
 
-/* Additional refinement for larger screens */
+/* LARGE DESKTOP REFINEMENT */
 @media (min-width: 1200px) {
+  .container {
+    max-width: 1100px;
+  }
+  
   .name {
-    font-size: 52px;
+    font-size: 54px;
+  }
+  
+  .img-wrapper img {
+    width: 240px;
+    height: 300px;
   }
 }
 
-/* LOCKED FOOTER */
-.footer{
+/* LOCKED FOOTER - STYLISH AND RESPONSIVE */
+.footer {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  background: black;
+  background: rgba(0, 0, 0, 0.85);
   border-top: 1px solid rgba(255,255,255,0.2);
   box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
   z-index: 999;
 }
 
-.footer::before{
+.footer::before {
   content: "";
   position: absolute;
   top: 0;
@@ -309,23 +404,22 @@ body{
   animation: lineFlow 3s ease-in-out infinite;
 }
 
-@keyframes lineFlow{
-  0%{
+@keyframes lineFlow {
+  0% {
     width: 0%;
     left: 0;
   }
-  50%{
+  50% {
     width: 100%;
     left: 0;
   }
-  100%{
+  100% {
     width: 0%;
     left: 100%;
   }
 }
 
-/* CONTENT */
-.footer-content{
+.footer-content {
   text-align: center;
   padding: 12px 0;
   font-size: 14px;
@@ -335,13 +429,64 @@ body{
   transition: all 0.3s ease;
 }
 
-/* COOL HOVER EFFECT */
-.footer-content:hover{
+.footer-content:hover {
   color: var(--accent-green);
   text-shadow: 0 0 10px rgba(200,232,107,0.7);
   letter-spacing: 2px;
 }
 
+/* ADDITIONAL SAFEGUARDS FOR VERY SMALL SCREENS - BUTTON REMAINS VERTICAL */
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 20px;
+  }
+  
+  .name {
+    font-size: 28px;
+  }
+  
+  .title {
+    font-size: 16px;
+    padding: 6px 16px;
+  }
+  
+  .img-wrapper img {
+    width: 150px;
+    height: 190px;
+  }
+  
+  .contact {
+    font-size: 13px;
+  }
+  
+  .desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  
+  /* Portfolio button remains vertical, slightly adjusted for very small screens */
+  .portfolio-btn {
+    padding: 14px 6px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+}
+
+/* ENSURE GREEN STRIP DOESN'T CAUSE OVERFLOW ISSUES ON DESKTOP */
+@media (min-width: 769px) {
+  .green-strip {
+    display: block;
+  }
+}
+
+/* Additional fix for tablets in landscape orientation - keep button vertical */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+  .portfolio-btn {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 18px 8px;
+  }
+}
 </style>
 </head>
 
@@ -349,27 +494,23 @@ body{
 
 <div class="container">
 
-  <!-- PORTFOLIO RIBBON - EXACT ORIGINAL SHAPE -->
+  <!-- PORTFOLIO RIBBON - VERTICAL ON BOTH DESKTOP AND MOBILE -->
   <a href="portfolio/portfolio.html" class="portfolio-btn">PORTFOLIO</a>
 
-  <!-- GREEN ACCENT STRIP - TOP ALIGNED WITH "Graphic Designer" TITLE STRIP -->
-  <!-- Extends precisely to the last letter 'e' of "Tanay Motghare" -->
+  <!-- GREEN ACCENT STRIP - DYNAMICALLY ALIGNED WITH TITLE AND EXTENDS TO LAST LETTER 'e' -->
   <div class="green-strip"></div>
-
- 
 
   <div class="row">
 
-    <!-- PROTECTED IMAGE - original dimensions -->
+    <!-- PROTECTED IMAGE - ORIGINAL DIMENSIONS -->
     <div class="img-wrapper">
-      <img src="image/tanay_dp1.jpg" alt="Tanay" draggable="false">
-    
+      <img src="image/tanay_dp1.jpg" alt="Tanay Motghare - Graphic Designer" draggable="false">
     </div>
 
     <div class="info">
       
       <div class="name">
-      Tanay Motghare
+        Tanay Motghare
       </div>
       
       <div class="title">
@@ -377,8 +518,8 @@ body{
       </div>
       
       <div class="contact">
-        📧 tanaymotghare2001@gmail.com &nbsp;&nbsp;
-      📞 9894314981
+        <span>📧 tanaymotghare2001@gmail.com</span>
+        <span>📞 9894314981</span>
       </div>
       
     </div>
@@ -391,238 +532,244 @@ body{
 
 </div>
 
-<script>
-  // Additional image protection: prevent right-click and drag specifically on image
-  const imgElement = document.querySelector('.img-wrapper img');
-  if (imgElement) {
-    imgElement.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      return false;
-    });
-    imgElement.addEventListener('dragstart', (e) => {
-      e.preventDefault();
-      return false;
-    });
-  }
-  
-  // Optional: subtle protection for key saves (non-intrusive)
-  document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-    }
-  });
-  
-  // Function to get the exact position of the last letter 'e' in the name
-  function getLastLetterEPosition() {
-    const nameElement = document.querySelector('.name');
-    if (!nameElement) return null;
-    
-    const nameText = nameElement.textContent || "Tanay Motghare";
-    const container = document.querySelector('.container');
-    if (!container) return null;
-    
-    // Create a temporary span to measure the exact position of the last character
-    const tempSpan = document.createElement('span');
-    tempSpan.style.position = 'absolute';
-    tempSpan.style.visibility = 'hidden';
-    tempSpan.style.whiteSpace = 'pre';
-    tempSpan.style.fontSize = window.getComputedStyle(nameElement).fontSize;
-    tempSpan.style.fontFamily = window.getComputedStyle(nameElement).fontFamily;
-    tempSpan.style.fontWeight = window.getComputedStyle(nameElement).fontWeight;
-    tempSpan.style.letterSpacing = window.getComputedStyle(nameElement).letterSpacing;
-    tempSpan.style.font = window.getComputedStyle(nameElement).font;
-    
-    // Get the text up to the last character (the 'e')
-    const lastChar = nameText[nameText.length - 1];
-    const textBeforeLast = nameText.slice(0, -1);
-    
-    // Measure width of text without last character
-    tempSpan.textContent = textBeforeLast;
-    document.body.appendChild(tempSpan);
-    const widthWithoutLast = tempSpan.offsetWidth;
-    
-    // Measure width of the last character alone
-    tempSpan.textContent = lastChar;
-    const lastCharWidth = tempSpan.offsetWidth;
-    
-    document.body.removeChild(tempSpan);
-    
-    // Get the position of the name element relative to container
-    const containerRect = container.getBoundingClientRect();
-    const nameRect = nameElement.getBoundingClientRect();
-    
-    // Calculate the X position of the last letter's right edge
-    const nameLeftRelative = nameRect.left - containerRect.left;
-    const lastLetterRightRelative = nameLeftRelative + widthWithoutLast + lastCharWidth;
-    
-    return {
-      rightEdge: lastLetterRightRelative,
-      widthWithoutLast: widthWithoutLast,
-      lastCharWidth: lastCharWidth
-    };
-  }
-  
-  // Function to align green strip top with the "Graphic Designer" title strip
-  // And extend width exactly to the last letter 'e' of the name
-  function alignAndExtendGreenStrip() {
-    const greenStrip = document.querySelector('.green-strip');
-    const container = document.querySelector('.container');
-    const nameElement = document.querySelector('.name');
-    const titleElement = document.querySelector('.title');
-    
-    // Only run on desktop (mobile hides it anyway)
-    if (window.innerWidth <= 768) return;
-    
-    if (!greenStrip || !container) return;
-    
-    try {
-      // === PART 1: TOP ALIGNMENT with "Graphic Designer" title strip ===
-      if (titleElement) {
-        const containerRect = container.getBoundingClientRect();
-        const titleRect = titleElement.getBoundingClientRect();
-        
-        // Calculate the top position of the title element relative to container
-        const titleTopRelative = titleRect.top - containerRect.top;
-        
-        // Set green strip top to match title's top edge
-        // Add a small offset if needed for perfect alignment (title has padding, we want strip to align with top of green background)
-        // The title has background color, we want our strip to start exactly where the title's green background starts
-        greenStrip.style.top = titleTopRelative + 'px';
-      } else {
-        // Fallback position
-        greenStrip.style.top = '230px';
-      }
-      
-      // === PART 2: WIDTH EXTENSION to last letter 'e' of name ===
-      if (nameElement) {
-        const position = getLastLetterEPosition();
-        
-        if (position && position.rightEdge > 0) {
-          // Green strip starts at left: 20px from container edge
-          const stripLeft = 20;
-          
-          // Calculate width needed to reach the last letter's right edge
-          let targetWidth = position.rightEdge - stripLeft;
-          
-          // Add a tiny offset to exactly align with the end of the letter 'e'
-          targetWidth = targetWidth + 3;
-          
-          // Ensure width is within reasonable bounds
-          const maxWidth = container.offsetWidth - stripLeft - 10;
-          targetWidth = Math.min(targetWidth, maxWidth);
-          targetWidth = Math.max(targetWidth, 50);
-          
-          // Apply the width
-          greenStrip.style.width = targetWidth + 'px';
-        } else {
-          // Fallback: use full name width
-          const containerRect = container.getBoundingClientRect();
-          const nameRect = nameElement.getBoundingClientRect();
-          const nameRightRelative = nameRect.right - containerRect.left;
-          const stripLeft = 20;
-          let fallbackWidth = nameRightRelative - stripLeft + 2;
-          fallbackWidth = Math.min(fallbackWidth, container.offsetWidth - stripLeft - 10);
-          fallbackWidth = Math.max(fallbackWidth, 50);
-          greenStrip.style.width = fallbackWidth + 'px';
-        }
-      }
-      
-      // Ensure left position stays fixed
-      greenStrip.style.left = '20px';
-      
-    } catch (error) {
-      console.warn('Error aligning green strip:', error);
-      // Fallback positioning
-      greenStrip.style.top = '230px';
-      greenStrip.style.left = '20px';
-      greenStrip.style.width = '400px';
-    }
-  }
-  
-  // Debounce function for resize events
-  let resizeTimeout;
-  function debouncedResize() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      alignAndExtendGreenStrip();
-    }, 100);
-  }
-  
-  // Run on load with multiple delays to ensure fonts are loaded
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      alignAndExtendGreenStrip();
-    }, 50);
-    setTimeout(() => {
-      alignAndExtendGreenStrip();
-    }, 150);
-    setTimeout(() => {
-      alignAndExtendGreenStrip();
-    }, 300);
-    alignAndExtendGreenStrip();
-  });
-  
-  window.addEventListener('resize', debouncedResize);
-  
-  // Run after font loading
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => {
-      setTimeout(alignAndExtendGreenStrip, 30);
-      setTimeout(alignAndExtendGreenStrip, 100);
-    });
-  }
-  
-  // Observer for layout changes
-  const observer = new ResizeObserver(() => {
-    alignAndExtendGreenStrip();
-  });
-  
-  const nameElement = document.querySelector('.name');
-  const titleElement = document.querySelector('.title');
-  const container = document.querySelector('.container');
-  
-  if (nameElement) observer.observe(nameElement);
-  if (titleElement) observer.observe(titleElement);
-  if (container) observer.observe(container);
-  
-  // Run when image loads
-  if (imgElement) {
-    imgElement.addEventListener('load', () => {
-      setTimeout(alignAndExtendGreenStrip, 50);
-    });
-  }
-  
-  // Also run on any animation frame to ensure perfect alignment after reflows
-  let rafTimeout;
-  function runOnFrame() {
-    alignAndExtendGreenStrip();
-    rafTimeout = setTimeout(() => {
-      alignAndExtendGreenStrip();
-    }, 200);
-  }
-  
-  window.addEventListener('load', runOnFrame);
-  
-  // Final check after all resources
-  setTimeout(() => {
-    alignAndExtendGreenStrip();
-  }, 500);
-  
-  // Additional check for any font loading from Google Fonts
-  const linkElement = document.querySelector('link[href*="fonts.googleapis.com"]');
-  if (linkElement) {
-    linkElement.addEventListener('load', () => {
-      setTimeout(alignAndExtendGreenStrip, 100);
-      setTimeout(alignAndExtendGreenStrip, 300);
-    });
-  }
-</script>
-
 <footer class="footer">
   <div class="footer-content">
     © Tanay Motghare
   </div>
 </footer>
+
+<script>
+  (function() {
+    // Image protection: prevent right-click and drag specifically on image
+    const imgElement = document.querySelector('.img-wrapper img');
+    if (imgElement) {
+      imgElement.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        return false;
+      });
+      imgElement.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+        return false;
+      });
+    }
+    
+    // Optional: subtle protection for key saves (non-intrusive)
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+      }
+    });
+    
+    // Function to get the exact position of the last letter 'e' in the name
+    function getLastLetterEPosition() {
+      const nameElement = document.querySelector('.name');
+      if (!nameElement) return null;
+      
+      const nameText = nameElement.textContent || "Tanay Motghare";
+      const container = document.querySelector('.container');
+      if (!container) return null;
+      
+      // Create a temporary span to measure the exact position of the last character
+      const tempSpan = document.createElement('span');
+      tempSpan.style.position = 'absolute';
+      tempSpan.style.visibility = 'hidden';
+      tempSpan.style.whiteSpace = 'pre';
+      tempSpan.style.fontSize = window.getComputedStyle(nameElement).fontSize;
+      tempSpan.style.fontFamily = window.getComputedStyle(nameElement).fontFamily;
+      tempSpan.style.fontWeight = window.getComputedStyle(nameElement).fontWeight;
+      tempSpan.style.letterSpacing = window.getComputedStyle(nameElement).letterSpacing;
+      tempSpan.style.font = window.getComputedStyle(nameElement).font;
+      
+      // Get the text up to the last character (the 'e')
+      const lastChar = nameText[nameText.length - 1];
+      const textBeforeLast = nameText.slice(0, -1);
+      
+      // Measure width of text without last character
+      tempSpan.textContent = textBeforeLast;
+      document.body.appendChild(tempSpan);
+      const widthWithoutLast = tempSpan.offsetWidth;
+      
+      // Measure width of the last character alone
+      tempSpan.textContent = lastChar;
+      const lastCharWidth = tempSpan.offsetWidth;
+      
+      document.body.removeChild(tempSpan);
+      
+      // Get the position of the name element relative to container
+      const containerRect = container.getBoundingClientRect();
+      const nameRect = nameElement.getBoundingClientRect();
+      
+      // Calculate the X position of the last letter's right edge
+      const nameLeftRelative = nameRect.left - containerRect.left;
+      const lastLetterRightRelative = nameLeftRelative + widthWithoutLast + lastCharWidth;
+      
+      return {
+        rightEdge: lastLetterRightRelative,
+        widthWithoutLast: widthWithoutLast,
+        lastCharWidth: lastCharWidth
+      };
+    }
+    
+    // Function to align green strip top with the "Graphic Designer" title strip
+    // And extend width exactly to the last letter 'e' of the name
+    function alignAndExtendGreenStrip() {
+      const greenStrip = document.querySelector('.green-strip');
+      const container = document.querySelector('.container');
+      const nameElement = document.querySelector('.name');
+      const titleElement = document.querySelector('.title');
+      
+      // Only run on desktop (mobile hides it anyway)
+      if (window.innerWidth <= 768) return;
+      
+      if (!greenStrip || !container) return;
+      
+      try {
+        // === PART 1: TOP ALIGNMENT with "Graphic Designer" title strip ===
+        if (titleElement) {
+          const containerRect = container.getBoundingClientRect();
+          const titleRect = titleElement.getBoundingClientRect();
+          
+          // Calculate the top position of the title element relative to container
+          const titleTopRelative = titleRect.top - containerRect.top;
+          
+          // Set green strip top to match title's top edge
+          greenStrip.style.top = titleTopRelative + 'px';
+        } else {
+          // Fallback position
+          greenStrip.style.top = '230px';
+        }
+        
+        // === PART 2: WIDTH EXTENSION to last letter 'e' of name ===
+        if (nameElement) {
+          const position = getLastLetterEPosition();
+          
+          if (position && position.rightEdge > 0) {
+            // Green strip starts at left: 20px from container edge
+            const stripLeft = 20;
+            
+            // Calculate width needed to reach the last letter's right edge
+            let targetWidth = position.rightEdge - stripLeft;
+            
+            // Add a tiny offset to exactly align with the end of the letter 'e'
+            targetWidth = targetWidth + 3;
+            
+            // Ensure width is within reasonable bounds
+            const maxWidth = container.offsetWidth - stripLeft - 10;
+            targetWidth = Math.min(targetWidth, maxWidth);
+            targetWidth = Math.max(targetWidth, 50);
+            
+            // Apply the width
+            greenStrip.style.width = targetWidth + 'px';
+          } else {
+            // Fallback: use full name width
+            const containerRect = container.getBoundingClientRect();
+            const nameRect = nameElement.getBoundingClientRect();
+            const nameRightRelative = nameRect.right - containerRect.left;
+            const stripLeft = 20;
+            let fallbackWidth = nameRightRelative - stripLeft + 2;
+            fallbackWidth = Math.min(fallbackWidth, container.offsetWidth - stripLeft - 10);
+            fallbackWidth = Math.max(fallbackWidth, 50);
+            greenStrip.style.width = fallbackWidth + 'px';
+          }
+        }
+        
+        // Ensure left position stays fixed
+        greenStrip.style.left = '20px';
+        
+      } catch (error) {
+        console.warn('Error aligning green strip:', error);
+        // Fallback positioning
+        greenStrip.style.top = '230px';
+        greenStrip.style.left = '20px';
+        greenStrip.style.width = '400px';
+      }
+    }
+    
+    // Debounce function for resize events
+    let resizeTimeout;
+    function debouncedResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        alignAndExtendGreenStrip();
+      }, 100);
+    }
+    
+    // Run on load with multiple delays to ensure fonts are loaded
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        alignAndExtendGreenStrip();
+      }, 50);
+      setTimeout(() => {
+        alignAndExtendGreenStrip();
+      }, 150);
+      setTimeout(() => {
+        alignAndExtendGreenStrip();
+      }, 300);
+      alignAndExtendGreenStrip();
+    });
+    
+    window.addEventListener('resize', debouncedResize);
+    
+    // Run after font loading
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        setTimeout(alignAndExtendGreenStrip, 30);
+        setTimeout(alignAndExtendGreenStrip, 100);
+      });
+    }
+    
+    // Observer for layout changes
+    const observer = new ResizeObserver(() => {
+      alignAndExtendGreenStrip();
+    });
+    
+    const nameElementObs = document.querySelector('.name');
+    const titleElementObs = document.querySelector('.title');
+    const containerObs = document.querySelector('.container');
+    
+    if (nameElementObs) observer.observe(nameElementObs);
+    if (titleElementObs) observer.observe(titleElementObs);
+    if (containerObs) observer.observe(containerObs);
+    
+    // Run when image loads
+    if (imgElement) {
+      imgElement.addEventListener('load', () => {
+        setTimeout(alignAndExtendGreenStrip, 50);
+      });
+    }
+    
+    // Also run on any animation frame to ensure perfect alignment after reflows
+    let rafTimeout;
+    function runOnFrame() {
+      alignAndExtendGreenStrip();
+      rafTimeout = setTimeout(() => {
+        alignAndExtendGreenStrip();
+      }, 200);
+    }
+    
+    window.addEventListener('load', runOnFrame);
+    
+    // Final check after all resources
+    setTimeout(() => {
+      alignAndExtendGreenStrip();
+    }, 500);
+    
+    // Additional check for any font loading from Google Fonts
+    const linkElement = document.querySelector('link[href*="fonts.googleapis.com"]');
+    if (linkElement) {
+      linkElement.addEventListener('load', () => {
+        setTimeout(alignAndExtendGreenStrip, 100);
+        setTimeout(alignAndExtendGreenStrip, 300);
+      });
+    }
+    
+    // Force recalc on orientation change for mobile
+    window.addEventListener('orientationchange', function() {
+      setTimeout(alignAndExtendGreenStrip, 100);
+      setTimeout(alignAndExtendGreenStrip, 250);
+    });
+  })();
+</script>
 
 </body>
 </html>
