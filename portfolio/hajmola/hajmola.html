@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,119 +6,123 @@
 
 <style>
 :root {
-  --dabur-green: #1f5c2c;
-  --accent-green: #000;
+  --green: #1f5c2c;
+  --dark: #000;
 }
 
+/* BASE */
 body {
   margin: 0;
-  font-family: system-ui;
-  background: #ffffff;
-  color: #1f5c2c;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #fff;
+  color: var(--green);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1 {
   text-align: center;
-  padding: 25px;
-  color: #1f5c2c;
+  padding: 30px 20px 10px;
+  font-size: 2rem;
 }
 
-/* ✅ 4 COLUMN GRID (NO FORCED HEIGHT) */
+/* GRID */
 .gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 30px;
+  gap: 18px;
+  padding: 25px;
   max-width: 1200px;
   margin: auto;
-  align-items: start; /* important */
 }
 
-/* IMAGE */
+/* IMAGE CARD */
 .gallery img {
   width: 100%;
-  height: auto; /* ✅ keep original ratio */
-  display: block;
-
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
-  border: 3px solid var(--dabur-green);
+  border: 2px solid var(--green);
 
-  /* REMOVE ALL EFFECTS */
-  filter: none !important;
-
+  /* PERFORMANCE */
+  will-change: transform, opacity;
+  transform: translateY(30px) scale(0.98);
   opacity: 0;
-  transform: translateY(40px);
+
+  transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.3s ease;
 }
 
-/* ANIMATION */
+/* SHOW ANIMATION */
 .gallery img.show {
+  transform: translateY(0) scale(1);
   opacity: 1;
-  transform: translateY(0);
-  transition: all 0.5s ease;
 }
 
 /* HOVER */
 .gallery img:hover {
   transform: scale(1.04);
-  border-color: var(--accent-green);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 /* LIGHTBOX */
 #lightbox {
-  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.95);
+  inset: 0;
+  background: rgba(0,0,0,0.96);
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* LIGHTBOX IMAGE */
 #lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-  border: 3px solid var(--dabur-green);
+  max-width: 92%;
+  max-height: 92%;
+  border-radius: 12px;
+  border: 3px solid var(--green);
+
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+#lightbox.active img {
+  transform: scale(1);
+  opacity: 1;
 }
 
 /* CONTROLS */
-#close {
+.control {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  color: white;
   font-size: 40px;
   cursor: pointer;
-  color: var(--accent-green);
+  user-select: none;
+  transition: transform 0.2s ease, opacity 0.2s;
 }
 
-#prev, #next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 50px;
-  cursor: pointer;
-  padding: 20px;
-  color: var(--accent-green);
+.control:hover {
+  transform: scale(1.2);
 }
 
-#prev { left: 20px; }
-#next { right: 20px; }
+#close { top: 20px; right: 30px; }
+#prev { left: 20px; top: 50%; transform: translateY(-50%); }
+#next { right: 20px; top: 50%; transform: translateY(-50%); }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 500px) {
-  .gallery {
-    grid-template-columns: 1fr;
-  }
+  .gallery { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -132,10 +135,10 @@ h1 {
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
-  <span id="close">&times;</span>
-  <span id="prev">&#10094;</span>
+  <span class="control" id="close">&times;</span>
+  <span class="control" id="prev">&#10094;</span>
   <img id="lightbox-img">
-  <span id="next">&#10095;</span>
+  <span class="control" id="next">&#10095;</span>
 </div>
 
 <script>
@@ -158,16 +161,20 @@ let images = [];
 let currentIndex = 0;
 
 const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
 
+/* CREATE IMAGES */
 imageFiles.forEach((file, index) => {
-
-  const encodedFile = encodeURIComponent(file);
-  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodedFile}`;
-
+  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
   images.push(url);
 
   const img = document.createElement("img");
   img.src = url;
+
+  /* PERFORMANCE BOOST */
+  img.loading = "lazy";
+  img.decoding = "async";
 
   img.onclick = () => {
     currentIndex = index;
@@ -176,42 +183,78 @@ imageFiles.forEach((file, index) => {
 
   gallery.appendChild(img);
 
-  setTimeout(() => {
-    img.classList.add("show");
-  }, index * 100);
+  requestAnimationFrame(() => {
+    setTimeout(() => img.classList.add("show"), index * 80);
+  });
 });
 
-/* LIGHTBOX */
+/* LIGHTBOX FUNCTIONS */
 function openLightbox() {
-  document.getElementById("lightbox").style.display = "flex";
-  document.getElementById("lightbox-img").src = images[currentIndex];
+  lightbox.classList.add("active");
+  updateImage();
 }
 
 function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
+  lightbox.classList.remove("active");
+}
+
+function updateImage() {
+  lightboxImg.src = images[currentIndex];
 }
 
 function nextImg() {
   currentIndex = (currentIndex + 1) % images.length;
-  document.getElementById("lightbox-img").src = images[currentIndex];
+  updateImage();
 }
 
 function prevImg() {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
-  document.getElementById("lightbox-img").src = images[currentIndex];
+  updateImage();
 }
 
+/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-document.addEventListener("keydown", (e) => {
-  if (document.getElementById("lightbox").style.display === "flex") {
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowRight") nextImg();
-    if (e.key === "ArrowLeft") prevImg();
-  }
+/* CLICK OUTSIDE TO CLOSE */
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
 });
+
+/* KEYBOARD */
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("active")) return;
+
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") nextImg();
+  if (e.key === "ArrowLeft") prevImg();
+});
+
+/* SWIPE SUPPORT */
+let startX = 0;
+
+lightbox.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+
+  if (startX - endX > 50) nextImg();
+  if (endX - startX > 50) prevImg();
+});
+
+/* PRELOAD NEXT IMAGE (ULTRA SMOOTH) */
+function preload(index) {
+  const img = new Image();
+  img.src = images[index];
+}
+
+setInterval(() => {
+  preload((currentIndex + 1) % images.length);
+}, 1000);
+
 </script>
 
 </body>
