@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -11,7 +12,6 @@
   --accent: #26C9B2;
 }
 
-/* BASE */
 body {
   margin: 0;
   font-family: 'Montserrat', system-ui, sans-serif;
@@ -25,7 +25,6 @@ h1 {
   font-weight: 700;
 }
 
-/* GALLERY */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -33,16 +32,14 @@ h1 {
   padding: 30px;
 }
 
-/* CARD */
+/* Thin border */
 .img-wrap {
   border-radius: 16px;
-  padding: 2.5px;
-  background: #000;
+  border: 1px solid #000;
   overflow: hidden;
 
   transform: translateY(30px) scale(0.98);
   opacity: 0;
-
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
@@ -57,7 +54,6 @@ h1 {
   object-fit: cover;
   border-radius: 13px;
   cursor: pointer;
-
   transition: transform 0.4s ease;
 }
 
@@ -65,16 +61,21 @@ h1 {
   transform: scale(1.05);
 }
 
+/* ✅ CENTER LAST IMAGE */
+.gallery .img-wrap:last-child {
+  grid-column: 1 / -1;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
 /* LIGHTBOX */
 #lightbox {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.96);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -85,7 +86,6 @@ h1 {
   pointer-events: auto;
 }
 
-/* SLIDER */
 .slider {
   display: flex;
   height: 100%;
@@ -104,7 +104,6 @@ h1 {
   max-width: 90%;
   max-height: 90%;
   border-radius: 12px;
-
   transform: scale(0.95);
   opacity: 0;
   transition: all 0.3s ease;
@@ -115,7 +114,6 @@ h1 {
   opacity: 1;
 }
 
-/* CONTROLS */
 .control {
   position: absolute;
   color: white;
@@ -146,13 +144,10 @@ h1 {
 
 <div class="gallery" id="gallery"></div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <span class="control" id="close">&times;</span>
   <span class="control" id="prev">&#10094;</span>
-
   <div class="slider" id="slider"></div>
-
   <span class="control" id="next">&#10095;</span>
 </div>
 
@@ -162,12 +157,8 @@ const REPO = "Tanay0107.github.io";
 const FOLDER = "portfolio/chatgpt";
 
 const imageFiles = [
-  
+  "ChatGPT Brief 2026-01.jpg",
   "CAHTGPT MAGZINE MOCK UP.jpg",
-  "brocher design-01.jpg",
-  "brocher design-02.jpg",
-  "hording chat gpt-01.jpg",
-  "information pannel (blog}.jpg",
   "netwon apple mag 3-01.jpg",
   "netwon apple mag 3-02.jpg",
   "netwon apple mag 3-03.jpg",
@@ -177,7 +168,8 @@ const imageFiles = [
   "poster mock up tanay.jpg",
   "press ad.-01.jpg",
   "press ad.-02.jpg",
-  "press ad.-03.jpg"
+  "press ad.-03.jpg",
+  "hording chat gpt-01.jpg"
 ];
 
 const gallery = document.getElementById("gallery");
@@ -186,21 +178,16 @@ const lightbox = document.getElementById("lightbox");
 
 let currentIndex = 0;
 let images = [];
-let startX = 0;
 
-/* CREATE UI */
 imageFiles.forEach((file, index) => {
   const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
   images.push(url);
 
-  // CARD
   const wrap = document.createElement("div");
   wrap.className = "img-wrap";
 
   const img = document.createElement("img");
   img.src = url;
-  img.loading = "lazy";
-  img.decoding = "async";
 
   img.onclick = () => {
     currentIndex = index;
@@ -210,12 +197,10 @@ imageFiles.forEach((file, index) => {
   wrap.appendChild(img);
   gallery.appendChild(wrap);
 
-  // ANIMATION
   requestAnimationFrame(() => {
     setTimeout(() => wrap.classList.add("show"), index * 80);
   });
 
-  // SLIDE
   const slide = document.createElement("div");
   slide.className = "slide";
 
@@ -226,7 +211,6 @@ imageFiles.forEach((file, index) => {
   slider.appendChild(slide);
 });
 
-/* LIGHTBOX */
 function openLightbox() {
   lightbox.classList.add("active");
   updateSlider();
@@ -236,12 +220,10 @@ function closeLightbox() {
   lightbox.classList.remove("active");
 }
 
-/* SLIDE UPDATE */
 function updateSlider() {
   slider.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
 
-/* NAV */
 function next() {
   currentIndex = (currentIndex + 1) % images.length;
   updateSlider();
@@ -252,47 +234,9 @@ function prev() {
   updateSlider();
 }
 
-/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = next;
 document.getElementById("prev").onclick = prev;
-
-/* CLICK OUTSIDE */
-lightbox.addEventListener("click", e => {
-  if (e.target === lightbox) closeLightbox();
-});
-
-/* KEYBOARD */
-document.addEventListener("keydown", e => {
-  if (!lightbox.classList.contains("active")) return;
-
-  if (e.key === "Escape") closeLightbox();
-  if (e.key === "ArrowRight") next();
-  if (e.key === "ArrowLeft") prev();
-});
-
-/* SWIPE */
-lightbox.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-lightbox.addEventListener("touchend", e => {
-  let diff = startX - e.changedTouches[0].clientX;
-
-  if (Math.abs(diff) > 50) {
-    diff > 0 ? next() : prev();
-  }
-});
-
-/* PRELOAD NEXT (SMOOTH AF) */
-function preload(index) {
-  const img = new Image();
-  img.src = images[index];
-}
-
-setInterval(() => {
-  preload((currentIndex + 1) % images.length);
-}, 1000);
 
 </script>
 
