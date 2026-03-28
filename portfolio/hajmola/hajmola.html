@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -147,14 +148,17 @@ const REPO = "Tanay0107.github.io";
 const FOLDER = "portfolio/hajmola";
 
 const imageFiles = [
+  "Hajmola Brief 2026-02.jpg", // Added at the top
+  "publishingad_2 a4.jpg",
   "hording_banana.png",
   "hording_icecream.jpg",
   "hording_pizza.png",
-  "publishingad_2 a4.jpg",
+  "zinovative_final.jpg",
+  
+  
   "pressad_chiken.jpg",
   "pressad_orange.jpg",
-  "pressad_watermelon.jpg",
-  "zinovative_final.jpg"
+  "pressad_watermelon.jpg"
 ];
 
 let images = [];
@@ -172,7 +176,7 @@ imageFiles.forEach((file, index) => {
   const img = document.createElement("img");
   img.src = url;
 
-  /* PERFORMANCE BOOST */
+  /* PERFORMANCE */
   img.loading = "lazy";
   img.decoding = "async";
 
@@ -181,7 +185,12 @@ imageFiles.forEach((file, index) => {
     openLightbox();
   };
 
-  gallery.appendChild(img);
+  // Prepend Hajmola Brief to top of gallery
+  if(file === "Hajmola Brief 2026-02.jpg") {
+    gallery.prepend(img);
+  } else {
+    gallery.appendChild(img);
+  }
 
   requestAnimationFrame(() => {
     setTimeout(() => img.classList.add("show"), index * 80);
@@ -254,7 +263,6 @@ function preload(index) {
 setInterval(() => {
   preload((currentIndex + 1) % images.length);
 }, 1000);
-
 </script>
 
 </body>
