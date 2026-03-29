@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motion Works</title>
+
+<style>
+:root {
+  --green: #1f5c2c;
+  --teal: #166877;
+  --accent: #c8e86b;
+  --soft-shadow: rgba(0, 0, 0, 0.12);
+  --hover-shadow: rgba(0, 0, 0, 0.25);
+  --lightbox-bg: rgba(0, 0, 0, 0.95);
+  --border-color: #e0e0e0;
+  --card-bg: #fff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #fdfdfd;
+  color: var(--teal);
+  user-select: none;
+}
+
+h1 {
+  text-align: center;
+  padding: 30px 20px 10px;
+  font-size: 2rem;
+}
+
+/* ── GRID ── */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 25px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* CARD wraps thumbnail + title */
+.video-card {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  box-shadow: 0 4px 15px var(--soft-shadow);
+  transform: translateY(20px) scale(0.98);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.video-card.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.video-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 25px var(--hover-shadow);
+}
+
+/* Thumbnail area */
+.thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  overflow: hidden;
+}
+
+.thumb-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Play button overlay */
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+  transition: background 0.2s;
+}
+.video-card:hover .play-overlay {
+  background: rgba(0,0,0,0.45);
+}
+
+.play-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+.video-card:hover .play-btn {
+  transform: scale(1.1);
+  background: #fff;
+}
+
+.play-btn svg {
+  fill: var(--green);
+  margin-left: 3px;
+}
+
+/* Duration badge */
+.duration-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  background: rgba(0,0,0,0.72);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Card label */
+.card-label {
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--teal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: var(--lightbox-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Video player wrapper */
+.lb-video-wrap {
+  position: relative;
+  width: min(90vw, 960px);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid var(--green);
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 0 60px rgba(31,92,44,0.35);
+}
+
+#lightbox.active .lb-video-wrap {
+  transform: scale(1);
+  opacity: 1;
+}
+
+#lb-video {
+  display: block;
+  width: 100%;
+  max-height: 56vw;
+  outline: none;
+  background: #000;
+}
+
+/* Custom controls */
+.lb-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #111;
+  border-top: 1px solid #222;
+}
+
+.lb-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, transform 0.15s;
+}
+.lb-btn:hover { color: var(--accent); transform: scale(1.2); }
+
+.lb-progress {
+  flex: 1;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.lb-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s linear;
+  position: relative;
+}
+.lb-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -5px; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.lb-progress:hover .lb-progress-fill::after { opacity: 1; }
+
+.lb-time {
+  font-size: 0.72rem;
+  color: #777;
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.vol-slider {
+  -webkit-appearance: none;
+  width: 60px; height: 3px;
+  background: #333; border-radius: 2px;
+  outline: none; cursor: pointer;
+}
+.vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px; height: 11px;
+  background: var(--accent); border-radius: 50%;
+}
+
+/* Video title in lightbox */
+.lb-title {
+  color: #fff;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+  opacity: 0.7;
+  max-width: min(90vw, 960px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  width: 100%;
+}
+
+/* CONTROLS */
+.control {
+  position: fixed;
+  color: #fff;
+  font-size: 42px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  z-index: 1001;
+  line-height: 1;
+}
+.control:hover { opacity: 1; }
+
+#close { top: 20px; right: 30px; }
+#prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
+#next  { right: 20px; top: 50%; transform: translateY(-50%); }
+
+/* Counter */
+.lb-counter {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #555;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .gallery { grid-template-columns: 1fr; }
+  #prev { left: 8px; font-size: 30px; }
+  #next { right: 8px; font-size: 30px; }
+  .vol-slider { display: none; }
+}
+</style>
+</head>
+
+<body oncontextmenu="return false;">
+
+<h1>Motion Works</h1>
+
+<div class="gallery" id="gallery"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span class="control" id="close">&times;</span>
+  <span class="control" id="prev">&#10094;</span>
+
+  <div class="lb-title" id="lbTitle"></div>
+
+  <div class="lb-video-wrap">
+    <video id="lb-video" preload="metadata" playsinline></video>
+
+    <div class="lb-controls">
+      <!-- Play/Pause -->
+      <button class="lb-btn" id="lbPlay" title="Play / Pause">
+        <svg id="lbPlayIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg id="lbPauseIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+
+      <!-- Progress -->
+      <div class="lb-progress" id="lbProgress">
+        <div class="lb-progress-fill" id="lbFill"></div>
+      </div>
+
+      <!-- Time -->
+      <span class="lb-time" id="lbTime">0:00 / 0:00</span>
+
+      <!-- Volume -->
+      <button class="lb-btn" id="lbMute" title="Mute">
+        <svg id="volOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+        <svg id="volOff" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+          <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/>
+          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+      <input class="vol-slider" id="volSlider" type="range" min="0" max="1" step="0.05" value="1"/>
+
+      <!-- Fullscreen -->
+      <button class="lb-btn" id="lbFs" title="Fullscreen">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15,3 21,3 21,9"/><polyline points="9,21 3,21 3,15"/>
+          <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <span class="control" id="next">&#10095;</span>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   ★ CONFIGURATION — edit these two lines
+   ═══════════════════════════════════════════════════════ */
+const USER   = "Tanay0107";
+const FOLDER = "portfolio/Videos";   // folder inside your repo
+
+/* ★ ADD YOUR VIDEO FILENAMES HERE (same pattern as your image gallery) */
+const videoFiles = [
+  "sample1.mp4",
+  "sample2.mp4",
+  "sample3.mp4",
+  // "your-video-4.mp4",
+  // "your-video-5.mp4",
+];
+
+/* ═══════════════════════════════════════════════════════ */
+
+let currentIndex = 0;
+const urls = [];
+const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const lbVideo  = document.getElementById("lb-video");
+const lbTitle  = document.getElementById("lbTitle");
+const lbFill   = document.getElementById("lbFill");
+const lbTime   = document.getElementById("lbTime");
+const lbCounter= document.getElementById("lbCounter");
+
+/* ── Build grid ── */
+videoFiles.forEach((file, index) => {
+  const url = `https://${USER}.github.io/${FOLDER}/${encodeURIComponent(file)}`;
+  urls.push(url);
+
+  const card = document.createElement("div");
+  card.className = "video-card";
+
+  /* Label — clean filename */
+  const label = file.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
+
+  card.innerHTML = `
+    <div class="thumb-wrap">
+      <video src="${url}#t=1" preload="metadata" muted playsinline></video>
+      <div class="play-overlay">
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+      <span class="duration-badge" id="dur-${index}">--:--</span>
+    </div>
+    <div class="card-label">${label}</div>
+  `;
+
+  /* Read duration from thumb video */
+  const thumbVid = card.querySelector("video");
+  thumbVid.addEventListener("loadedmetadata", () => {
+    document.getElementById(`dur-${index}`).textContent = fmt(thumbVid.duration);
+  });
+
+  /* Hover: play preview silently */
+  card.addEventListener("mouseenter", () => {
+    thumbVid.currentTime = 0;
+    thumbVid.play().catch(() => {});
+  });
+  card.addEventListener("mouseleave", () => {
+    thumbVid.pause();
+    thumbVid.currentTime = 0;
+  });
+
+  card.addEventListener("click", () => {
+    currentIndex = index;
+    openLightbox();
+  });
+
+  gallery.appendChild(card);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => card.classList.add("show"), index * 80);
+  });
+});
+
+/* ── Lightbox ── */
+function openLightbox() {
+  lightbox.classList.add("active");
+  updateVideo();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+  lbVideo.pause();
+  lbVideo.src = "";
+  syncPlayIcons(true);
+}
+
+function updateVideo() {
+  lbVideo.src = urls[currentIndex];
+  const label = videoFiles[currentIndex].replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
+  lbTitle.textContent = label;
+  lbCounter.textContent = `${currentIndex + 1} / ${urls.length}`;
+  lbVideo.load();
+  lbVideo.play().catch(() => {});
+}
+
+function nextVid() {
+  currentIndex = (currentIndex + 1) % urls.length;
+  updateVideo();
+}
+function prevVid() {
+  currentIndex = (currentIndex - 1 + urls.length) % urls.length;
+  updateVideo();
+}
+
+/* ── Controls ── */
+document.getElementById("close").onclick = closeLightbox;
+document.getElementById("next").onclick  = nextVid;
+document.getElementById("prev").onclick  = prevVid;
+
+/* Play/Pause button */
+document.getElementById("lbPlay").onclick = () => {
+  lbVideo.paused ? lbVideo.play() : lbVideo.pause();
+};
+
+function syncPlayIcons(paused) {
+  document.getElementById("lbPlayIcon").style.display  = paused  ? "" : "none";
+  document.getElementById("lbPauseIcon").style.display = !paused ? "" : "none";
+}
+
+lbVideo.addEventListener("play",  () => syncPlayIcons(false));
+lbVideo.addEventListener("pause", () => syncPlayIcons(true));
+
+/* Progress */
+lbVideo.addEventListener("timeupdate", () => {
+  if (!lbVideo.duration) return;
+  const pct = (lbVideo.currentTime / lbVideo.duration) * 100;
+  lbFill.style.width = pct + "%";
+  lbTime.textContent = `${fmt(lbVideo.currentTime)} / ${fmt(lbVideo.duration)}`;
+});
+
+document.getElementById("lbProgress").addEventListener("click", e => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  lbVideo.currentTime = ((e.clientX - rect.left) / rect.width) * lbVideo.duration;
+});
+
+/* Volume */
+document.getElementById("lbMute").onclick = () => {
+  lbVideo.muted = !lbVideo.muted;
+  document.getElementById("volOn").style.display  = lbVideo.muted ? "none" : "";
+  document.getElementById("volOff").style.display = lbVideo.muted ? ""     : "none";
+  document.getElementById("volSlider").value = lbVideo.muted ? 0 : lbVideo.volume;
+};
+
+document.getElementById("volSlider").addEventListener("input", e => {
+  lbVideo.volume = e.target.value;
+  lbVideo.muted  = e.target.value == 0;
+  document.getElementById("volOn").style.display  = lbVideo.muted ? "none" : "";
+  document.getElementById("volOff").style.display = lbVideo.muted ? ""     : "none";
+});
+
+/* Fullscreen */
+document.getElementById("lbFs").onclick = () => {
+  const wrap = document.querySelector(".lb-video-wrap");
+  document.fullscreenElement ? document.exitFullscreen() : wrap.requestFullscreen();
+};
+
+/* Auto-advance when video ends */
+lbVideo.addEventListener("ended", () => nextVid());
+
+/* Click outside video closes */
+lightbox.addEventListener("click", e => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+/* Keyboard */
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("active")) return;
+  if (e.key === "Escape")      closeLightbox();
+  if (e.key === "ArrowRight")  nextVid();
+  if (e.key === "ArrowLeft")   prevVid();
+  if (e.key === " ")           { e.preventDefault(); lbVideo.paused ? lbVideo.play() : lbVideo.pause(); }
+});
+
+/* Swipe */
+let startX = 0;
+lightbox.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
+lightbox.addEventListener("touchend",   e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (dx < -50) nextVid();
+  if (dx >  50) prevVid();
+});
+
+/* ── Helpers ── */
+function fmt(s) {
+  if (!s || isNaN(s)) return "--:--";
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return `${m}:${sec < 10 ? "0" : ""}${sec}`;
+}
+</script>
+
+</body>
+</html>
