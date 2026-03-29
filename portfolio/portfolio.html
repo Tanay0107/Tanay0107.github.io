@@ -14,7 +14,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* ⚡ FAST ENERGETIC GRADIENT */
+/* ⚡ WHITE-BLUE GRADIENT */
 body {
   height: 100vh;
   display: flex;
@@ -22,20 +22,14 @@ body {
   align-items: center;
   overflow: hidden;
 
-  background: linear-gradient(
-    -45deg,
-    #ffffff,
-    #f0fff0,
-    #d9ffd9,
-    #c2ffc2,
-    #ffffff
-  );
+  background: solid background( #ffffff,
+    );
 
   background-size: 350% 350%;
   animation: gradientMove 4s linear infinite;
 }
 
-/* ⚡ MORE DYNAMIC MOTION */
+/* ⚡ SAME MOTION */
 @keyframes gradientMove {
   0%   { background-position: 0% 50%; }
   20%  { background-position: 100% 40%; }
@@ -45,13 +39,13 @@ body {
   100% { background-position: 0% 50%; }
 }
 
-/* 🌿 BRIGHT BLOBS */
+/* 💧 BLUE BLOBS (changed from green) */
 body::before {
   content: '';
   position: fixed;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(120, 255, 140, 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(120, 180, 255, 0.35), transparent 70%);
   top: -150px;
   left: -150px;
   border-radius: 50%;
@@ -63,7 +57,7 @@ body::after {
   position: fixed;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(120, 255, 140, 0.25), transparent 70%);
+  background: radial-gradient(circle, rgba(120, 180, 255, 0.25), transparent 70%);
   bottom: -100px;
   right: -100px;
   border-radius: 50%;
@@ -85,7 +79,7 @@ h1 {
   color: #1a2e1a;
 }
 
-/* BUTTONS */
+/* BUTTONS (UNCHANGED) */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -132,6 +126,8 @@ h1 {
     <button class="btn" onclick="openPage('hajmola/hajmola.html')">Hajmola</button>
     <button class="btn" onclick="openPage('logo/logo.html')">Logo</button>
     <button class="btn" onclick="openPage('mimi/mini.html')">Sandisk</button>
+
+    <button class="btn" onclick="openPage('other/other.html')">Other Creatives</button>
   </div>
 </div>
 
