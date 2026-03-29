@@ -33,7 +33,6 @@ h1 {
   font-size: 2rem;
 }
 
-/* ── GRID ── */
 .gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -43,7 +42,6 @@ h1 {
   margin: auto;
 }
 
-/* CARD wraps thumbnail + title */
 .video-card {
   border-radius: 16px;
   overflow: hidden;
@@ -67,7 +65,6 @@ h1 {
   box-shadow: 0 8px 25px var(--hover-shadow);
 }
 
-/* Thumbnail area */
 .thumb-wrap {
   position: relative;
   width: 100%;
@@ -84,7 +81,6 @@ h1 {
   pointer-events: none;
 }
 
-/* Play button overlay */
 .play-overlay {
   position: absolute;
   inset: 0;
@@ -94,9 +90,7 @@ h1 {
   background: rgba(0,0,0,0.3);
   transition: background 0.2s;
 }
-.video-card:hover .play-overlay {
-  background: rgba(0,0,0,0.45);
-}
+.video-card:hover .play-overlay { background: rgba(0,0,0,0.45); }
 
 .play-btn {
   width: 52px;
@@ -108,17 +102,9 @@ h1 {
   justify-content: center;
   transition: transform 0.2s, background 0.2s;
 }
-.video-card:hover .play-btn {
-  transform: scale(1.1);
-  background: #fff;
-}
+.video-card:hover .play-btn { transform: scale(1.1); background: #fff; }
+.play-btn svg { fill: var(--green); margin-left: 3px; }
 
-.play-btn svg {
-  fill: var(--green);
-  margin-left: 3px;
-}
-
-/* Duration badge */
 .duration-badge {
   position: absolute;
   bottom: 8px;
@@ -132,7 +118,6 @@ h1 {
   font-variant-numeric: tabular-nums;
 }
 
-/* Card label */
 .card-label {
   padding: 10px 14px;
   font-size: 0.8rem;
@@ -144,7 +129,6 @@ h1 {
   border-top: 1px solid var(--border-color);
 }
 
-/* ── LIGHTBOX ── */
 #lightbox {
   position: fixed;
   inset: 0;
@@ -159,12 +143,8 @@ h1 {
   z-index: 1000;
 }
 
-#lightbox.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+#lightbox.active { opacity: 1; pointer-events: auto; }
 
-/* Video player wrapper */
 .lb-video-wrap {
   position: relative;
   width: min(90vw, 960px);
@@ -178,10 +158,7 @@ h1 {
   box-shadow: 0 0 60px rgba(31,92,44,0.35);
 }
 
-#lightbox.active .lb-video-wrap {
-  transform: scale(1);
-  opacity: 1;
-}
+#lightbox.active .lb-video-wrap { transform: scale(1); opacity: 1; }
 
 #lb-video {
   display: block;
@@ -191,7 +168,6 @@ h1 {
   background: #000;
 }
 
-/* Custom controls */
 .lb-controls {
   display: flex;
   align-items: center;
@@ -263,7 +239,6 @@ h1 {
   background: var(--accent); border-radius: 50%;
 }
 
-/* Video title in lightbox */
 .lb-title {
   color: #fff;
   font-size: 0.85rem;
@@ -278,7 +253,6 @@ h1 {
   width: 100%;
 }
 
-/* CONTROLS */
 .control {
   position: fixed;
   color: #fff;
@@ -295,7 +269,6 @@ h1 {
 #prev  { left: 20px;  top: 50%; transform: translateY(-50%); }
 #next  { right: 20px; top: 50%; transform: translateY(-50%); }
 
-/* Counter */
 .lb-counter {
   position: fixed;
   bottom: 20px;
@@ -306,10 +279,7 @@ h1 {
   letter-spacing: 0.15em;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .gallery { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 500px) {
   .gallery { grid-template-columns: 1fr; }
   #prev { left: 8px; font-size: 30px; }
@@ -322,40 +292,25 @@ h1 {
 <body oncontextmenu="return false;">
 
 <h1>Motion Works</h1>
-
 <div class="gallery" id="gallery"></div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <span class="control" id="close">&times;</span>
   <span class="control" id="prev">&#10094;</span>
-
   <div class="lb-title" id="lbTitle"></div>
-
   <div class="lb-video-wrap">
     <video id="lb-video" preload="metadata" playsinline></video>
-
     <div class="lb-controls">
-      <!-- Play/Pause -->
-      <button class="lb-btn" id="lbPlay" title="Play / Pause">
+      <button class="lb-btn" id="lbPlay">
         <svg id="lbPlayIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         <svg id="lbPauseIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
       </button>
-
-      <!-- Progress -->
-      <div class="lb-progress" id="lbProgress">
-        <div class="lb-progress-fill" id="lbFill"></div>
-      </div>
-
-      <!-- Time -->
+      <div class="lb-progress" id="lbProgress"><div class="lb-progress-fill" id="lbFill"></div></div>
       <span class="lb-time" id="lbTime">0:00 / 0:00</span>
-
-      <!-- Volume -->
-      <button class="lb-btn" id="lbMute" title="Mute">
+      <button class="lb-btn" id="lbMute">
         <svg id="volOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
         </svg>
         <svg id="volOff" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
           <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/>
@@ -363,9 +318,7 @@ h1 {
         </svg>
       </button>
       <input class="vol-slider" id="volSlider" type="range" min="0" max="1" step="0.05" value="1"/>
-
-      <!-- Fullscreen -->
-      <button class="lb-btn" id="lbFs" title="Fullscreen">
+      <button class="lb-btn" id="lbFs">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="15,3 21,3 21,9"/><polyline points="9,21 3,21 3,15"/>
           <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
@@ -373,33 +326,46 @@ h1 {
       </button>
     </div>
   </div>
-
   <span class="control" id="next">&#10095;</span>
   <div class="lb-counter" id="lbCounter"></div>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════
-   ★ CONFIGURATION — edit these two lines
-   ═══════════════════════════════════════════════════════ */
 const USER   = "Tanay0107";
 const FOLDER = "portfolio/Post";
 
-/* ★ ADD YOUR VIDEO FILENAMES HERE (same pattern as your image gallery) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ★ STEP 1 — Exact filenames as uploaded in your repo
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 const videoFiles = [
-  "compressed_World Health Day Final.mp4",
-  "Togetherness post contrast V1 Final.mp4",
-  "National Doctor's Day 2025 V1.mp4",
-  "Republic day Gif V4 30s.mp4",
-  "Infinity Medicom World No Tobacco Day V1.mp4",
-  // "your-next-video.mp4",
+  "compressed_World Health Day Final.mp4",        // 1
+  "Togetherness post contrast V1 Final.mp4",      // 2
+  "National Doctor's Day 2025 V1.mp4",            // 3
+  "Republic day Gif V4 30s.mp4",                  // 4
+  "Infinity Medicom World No Tobacco Day V1.mp4", // 5
+  // "your-next-video.mp4",                       // 6
 ];
 
-/* ═══════════════════════════════════════════════════════ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ★ STEP 2 — Your custom display name for each video
+              (keep the same order as STEP 1 above)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const videoLabels = [
+  "World Health Day",       // 1
+  "Togetherness",           // 2
+  "National Doctor's Day",  // 3
+  "Republic Day",           // 4
+  "World NoTobacco Day",   // 5
+  // "Your Custom Title",   // 6
+];
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ↓ Don't edit below this line ↓
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 let currentIndex = 0;
-const urls = [];
-const gallery = document.getElementById("gallery");
+const urls     = [];
+const gallery  = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lbVideo  = document.getElementById("lb-video");
 const lbTitle  = document.getElementById("lbTitle");
@@ -407,17 +373,14 @@ const lbFill   = document.getElementById("lbFill");
 const lbTime   = document.getElementById("lbTime");
 const lbCounter= document.getElementById("lbCounter");
 
-/* ── Build grid ── */
+const getLabel = i => videoLabels[i] || videoFiles[i].replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
+
 videoFiles.forEach((file, index) => {
   const url = `https://${USER}.github.io/${FOLDER}/${encodeURIComponent(file)}`;
   urls.push(url);
 
   const card = document.createElement("div");
   card.className = "video-card";
-
-  /* Label — clean filename */
-  const label = file.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
-
   card.innerHTML = `
     <div class="thumb-wrap">
       <video src="${url}#t=1" preload="metadata" muted playsinline></video>
@@ -428,91 +391,53 @@ videoFiles.forEach((file, index) => {
       </div>
       <span class="duration-badge" id="dur-${index}">--:--</span>
     </div>
-    <div class="card-label">${label}</div>
+    <div class="card-label">${getLabel(index)}</div>
   `;
 
-  /* Read duration from thumb video */
   const thumbVid = card.querySelector("video");
   thumbVid.addEventListener("loadedmetadata", () => {
     document.getElementById(`dur-${index}`).textContent = fmt(thumbVid.duration);
   });
 
-  /* Hover: play preview silently */
-  card.addEventListener("mouseenter", () => {
-    thumbVid.currentTime = 0;
-    thumbVid.play().catch(() => {});
-  });
-  card.addEventListener("mouseleave", () => {
-    thumbVid.pause();
-    thumbVid.currentTime = 0;
-  });
-
-  card.addEventListener("click", () => {
-    currentIndex = index;
-    openLightbox();
-  });
+  card.addEventListener("mouseenter", () => { thumbVid.currentTime = 0; thumbVid.play().catch(() => {}); });
+  card.addEventListener("mouseleave", () => { thumbVid.pause(); thumbVid.currentTime = 0; });
+  card.addEventListener("click", () => { currentIndex = index; openLightbox(); });
 
   gallery.appendChild(card);
-
-  requestAnimationFrame(() => {
-    setTimeout(() => card.classList.add("show"), index * 80);
-  });
+  requestAnimationFrame(() => { setTimeout(() => card.classList.add("show"), index * 80); });
 });
 
-/* ── Lightbox ── */
-function openLightbox() {
-  lightbox.classList.add("active");
-  updateVideo();
-}
-
+function openLightbox() { lightbox.classList.add("active"); updateVideo(); }
 function closeLightbox() {
   lightbox.classList.remove("active");
-  lbVideo.pause();
-  lbVideo.src = "";
+  lbVideo.pause(); lbVideo.src = "";
   syncPlayIcons(true);
 }
-
 function updateVideo() {
   lbVideo.src = urls[currentIndex];
-  const label = videoFiles[currentIndex].replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
-  lbTitle.textContent = label;
+  lbTitle.textContent = getLabel(currentIndex);
   lbCounter.textContent = `${currentIndex + 1} / ${urls.length}`;
   lbVideo.load();
   lbVideo.play().catch(() => {});
 }
+function nextVid() { currentIndex = (currentIndex + 1) % urls.length; updateVideo(); }
+function prevVid() { currentIndex = (currentIndex - 1 + urls.length) % urls.length; updateVideo(); }
 
-function nextVid() {
-  currentIndex = (currentIndex + 1) % urls.length;
-  updateVideo();
-}
-function prevVid() {
-  currentIndex = (currentIndex - 1 + urls.length) % urls.length;
-  updateVideo();
-}
-
-/* ── Controls ── */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick  = nextVid;
 document.getElementById("prev").onclick  = prevVid;
-
-/* Play/Pause button */
-document.getElementById("lbPlay").onclick = () => {
-  lbVideo.paused ? lbVideo.play() : lbVideo.pause();
-};
+document.getElementById("lbPlay").onclick = () => { lbVideo.paused ? lbVideo.play() : lbVideo.pause(); };
 
 function syncPlayIcons(paused) {
   document.getElementById("lbPlayIcon").style.display  = paused  ? "" : "none";
   document.getElementById("lbPauseIcon").style.display = !paused ? "" : "none";
 }
-
 lbVideo.addEventListener("play",  () => syncPlayIcons(false));
 lbVideo.addEventListener("pause", () => syncPlayIcons(true));
 
-/* Progress */
 lbVideo.addEventListener("timeupdate", () => {
   if (!lbVideo.duration) return;
-  const pct = (lbVideo.currentTime / lbVideo.duration) * 100;
-  lbFill.style.width = pct + "%";
+  lbFill.style.width = (lbVideo.currentTime / lbVideo.duration * 100) + "%";
   lbTime.textContent = `${fmt(lbVideo.currentTime)} / ${fmt(lbVideo.duration)}`;
 });
 
@@ -521,14 +446,12 @@ document.getElementById("lbProgress").addEventListener("click", e => {
   lbVideo.currentTime = ((e.clientX - rect.left) / rect.width) * lbVideo.duration;
 });
 
-/* Volume */
 document.getElementById("lbMute").onclick = () => {
   lbVideo.muted = !lbVideo.muted;
   document.getElementById("volOn").style.display  = lbVideo.muted ? "none" : "";
   document.getElementById("volOff").style.display = lbVideo.muted ? ""     : "none";
   document.getElementById("volSlider").value = lbVideo.muted ? 0 : lbVideo.volume;
 };
-
 document.getElementById("volSlider").addEventListener("input", e => {
   lbVideo.volume = e.target.value;
   lbVideo.muted  = e.target.value == 0;
@@ -536,30 +459,22 @@ document.getElementById("volSlider").addEventListener("input", e => {
   document.getElementById("volOff").style.display = lbVideo.muted ? ""     : "none";
 });
 
-/* Fullscreen */
 document.getElementById("lbFs").onclick = () => {
   const wrap = document.querySelector(".lb-video-wrap");
   document.fullscreenElement ? document.exitFullscreen() : wrap.requestFullscreen();
 };
 
-/* Auto-advance when video ends */
 lbVideo.addEventListener("ended", () => nextVid());
+lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
 
-/* Click outside video closes */
-lightbox.addEventListener("click", e => {
-  if (e.target === lightbox) closeLightbox();
-});
-
-/* Keyboard */
 document.addEventListener("keydown", e => {
   if (!lightbox.classList.contains("active")) return;
-  if (e.key === "Escape")      closeLightbox();
-  if (e.key === "ArrowRight")  nextVid();
-  if (e.key === "ArrowLeft")   prevVid();
-  if (e.key === " ")           { e.preventDefault(); lbVideo.paused ? lbVideo.play() : lbVideo.pause(); }
+  if (e.key === "Escape")     closeLightbox();
+  if (e.key === "ArrowRight") nextVid();
+  if (e.key === "ArrowLeft")  prevVid();
+  if (e.key === " ")          { e.preventDefault(); lbVideo.paused ? lbVideo.play() : lbVideo.pause(); }
 });
 
-/* Swipe */
 let startX = 0;
 lightbox.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
 lightbox.addEventListener("touchend",   e => {
@@ -568,7 +483,6 @@ lightbox.addEventListener("touchend",   e => {
   if (dx >  50) prevVid();
 });
 
-/* ── Helpers ── */
 function fmt(s) {
   if (!s || isNaN(s)) return "--:--";
   const m = Math.floor(s / 60), sec = Math.floor(s % 60);
