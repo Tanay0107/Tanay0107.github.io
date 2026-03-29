@@ -1,36 +1,31 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hajmola Ad Campaign</title>
+<title>Creatives Gallery</title>
 
 <style>
 :root {
   --green: #1f5c2c;
-  --dark: #000;
   --soft-shadow: rgba(0, 0, 0, 0.12);
   --hover-shadow: rgba(0, 0, 0, 0.2);
   --lightbox-bg: rgba(0, 0, 0, 0.9);
   --border-color: #e0e0e0;
 }
 
-/* BASE */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
   background: #fdfdfd;
   color: var(--green);
-  -webkit-font-smoothing: antialiased;
-  user-select: none; /* Prevent text/image selection */
+  user-select: none;
 }
 
 h1 {
   text-align: center;
   padding: 30px 20px 10px;
   font-size: 2rem;
-  color: var(--green);
 }
 
 /* GRID */
@@ -43,40 +38,30 @@ h1 {
   margin: auto;
 }
 
-/* IMAGE CARD - RECTANGLE */
 .gallery img {
   width: 100%;
-  aspect-ratio: 4 / 3; /* Optically pleasing rectangle */
-  object-fit: cover;   /* Fill rectangle without distortion */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border-radius: 16px;
   cursor: pointer;
   border: 1px solid var(--border-color);
   background: #fff;
   box-shadow: 0 4px 15px var(--soft-shadow);
-  
-  /* Disable download */
   -webkit-user-drag: none;
-  pointer-events: auto;
 
-  /* PERFORMANCE */
-  will-change: transform, opacity;
   transform: translateY(20px) scale(0.98);
   opacity: 0;
-
-  transition: transform 0.35s ease, opacity 0.35s ease, box-shadow 0.35s ease;
+  transition: 0.35s ease;
 }
 
-/* SHOW ANIMATION */
 .gallery img.show {
   transform: translateY(0) scale(1);
   opacity: 1;
 }
 
-/* HOVER */
 .gallery img:hover {
   transform: scale(1.03);
   box-shadow: 0 8px 25px var(--hover-shadow);
-  border-color: var(--green);
 }
 
 /* LIGHTBOX */
@@ -89,7 +74,7 @@ h1 {
   align-items: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: 0.3s ease;
 }
 
 #lightbox.active {
@@ -97,18 +82,14 @@ h1 {
   pointer-events: auto;
 }
 
-/* LIGHTBOX IMAGE */
 #lightbox img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 16px;
   border: 2px solid var(--green);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.3);
   transform: scale(0.95);
   opacity: 0;
-  transition: all 0.3s ease;
-  -webkit-user-drag: none; /* Prevent drag */
-  pointer-events: none;     /* Prevent right click in lightbox */
+  transition: 0.3s ease;
 }
 
 #lightbox.active img {
@@ -122,12 +103,6 @@ h1 {
   color: #fff;
   font-size: 42px;
   cursor: pointer;
-  user-select: none;
-  transition: transform 0.2s ease, opacity 0.2s;
-}
-
-.control:hover {
-  transform: scale(1.25);
 }
 
 #close { top: 20px; right: 30px; }
@@ -138,20 +113,18 @@ h1 {
 @media (max-width: 900px) {
   .gallery { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 500px) {
   .gallery { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 
-<body oncontextmenu="return false;"> <!-- Disable right-click on page -->
+<body oncontextmenu="return false;">
 
-<h1>Hajmola Ad Campaign</h1>
+<h1>Creatives Gallery</h1>
 
 <div class="gallery" id="gallery"></div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <span class="control" id="close">&times;</span>
   <span class="control" id="prev">&#10094;</span>
@@ -161,7 +134,6 @@ h1 {
 
 <script>
 const USER = "Tanay0107";
-const REPO = "Tanay0107.github.io";
 const FOLDER = "portfolio/Creatives";
 
 const imageFiles = [
@@ -192,53 +164,46 @@ const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 
-/* CREATE IMAGES */
 imageFiles.forEach((file, index) => {
-  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
+  const url = `https://${USER}.github.io/${FOLDER}/${encodeURIComponent(file)}`;
   images.push(url);
 
   const img = document.createElement("img");
   img.src = url;
 
+  img.onerror = () => console.log("❌ Not loading:", url);
+
   img.loading = "lazy";
   img.decoding = "async";
-  img.draggable = false; // Prevent dragging
+  img.draggable = false;
 
   img.onclick = () => {
     currentIndex = index;
     openLightbox();
   };
 
-  if(file === "Hajmola Brief 2026-02.jpg") {
-    gallery.prepend(img);
-  } else {
-    gallery.appendChild(img);
-  }
+  gallery.appendChild(img);
 
   requestAnimationFrame(() => {
     setTimeout(() => img.classList.add("show"), index * 80);
   });
 });
 
-/* LIGHTBOX FUNCTIONS */
+/* LIGHTBOX */
 function openLightbox() {
   lightbox.classList.add("active");
   updateImage();
 }
-
 function closeLightbox() {
   lightbox.classList.remove("active");
 }
-
 function updateImage() {
   lightboxImg.src = images[currentIndex];
 }
-
 function nextImg() {
   currentIndex = (currentIndex + 1) % images.length;
   updateImage();
 }
-
 function prevImg() {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
   updateImage();
@@ -249,20 +214,18 @@ document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-/* CLICK OUTSIDE TO CLOSE */
-lightbox.addEventListener("click", (e) => {
+lightbox.addEventListener("click", e => {
   if (e.target === lightbox) closeLightbox();
 });
 
-/* KEYBOARD */
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", e => {
   if (!lightbox.classList.contains("active")) return;
   if (e.key === "Escape") closeLightbox();
   if (e.key === "ArrowRight") nextImg();
   if (e.key === "ArrowLeft") prevImg();
 });
 
-/* SWIPE SUPPORT */
+/* SWIPE */
 let startX = 0;
 lightbox.addEventListener("touchstart", e => startX = e.touches[0].clientX);
 lightbox.addEventListener("touchend", e => {
@@ -270,13 +233,6 @@ lightbox.addEventListener("touchend", e => {
   if (startX - endX > 50) nextImg();
   if (endX - startX > 50) prevImg();
 });
-
-/* PRELOAD NEXT IMAGE */
-function preload(index) {
-  const img = new Image();
-  img.src = images[index];
-}
-setInterval(() => preload((currentIndex + 1) % images.length), 1000);
 </script>
 
 </body>
