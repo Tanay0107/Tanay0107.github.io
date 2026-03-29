@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Creatives </title>
+<title>Creatives</title>
 
 <style>
 :root {
@@ -25,7 +25,27 @@ body {
 h1 {
   text-align: center;
   padding: 30px 20px 10px;
-  font-size: 2rem;
+}
+
+/* FILTER BUTTONS */
+.filters {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.filters button {
+  margin: 5px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px;
+  background: #eee;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filters button.active {
+  background: var(--green);
+  color: white;
 }
 
 /* GRID */
@@ -47,8 +67,6 @@ h1 {
   border: 1px solid var(--border-color);
   background: #fff;
   box-shadow: 0 4px 15px var(--soft-shadow);
-  -webkit-user-drag: none;
-
   transform: translateY(20px) scale(0.98);
   opacity: 0;
   transition: 0.35s ease;
@@ -57,11 +75,6 @@ h1 {
 .gallery img.show {
   transform: translateY(0) scale(1);
   opacity: 1;
-}
-
-.gallery img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 25px var(--hover-shadow);
 }
 
 /* LIGHTBOX */
@@ -87,14 +100,6 @@ h1 {
   max-height: 90%;
   border-radius: 16px;
   border: 2px solid var(--green);
-  transform: scale(0.95);
-  opacity: 0;
-  transition: 0.3s ease;
-}
-
-#lightbox.active img {
-  transform: scale(1);
-  opacity: 1;
 }
 
 /* CONTROLS */
@@ -121,9 +126,14 @@ h1 {
 
 <body oncontextmenu="return false;">
 
-<h1>Creatives</h1> 
-  
-  
+<h1>Creatives</h1>
+
+<div class="filters">
+  <button onclick="filterImages('all')" class="active">ALL</button>
+  <button onclick="filterImages('mucaryl')">MUCARYL-AB</button>
+  <button onclick="filterImages('nebsmart')">NEBSMART</button>
+  <button onclick="filterImages('eventus')">EVENTUS</button>
+</div>
 
 <div class="gallery" id="gallery"></div>
 
@@ -139,78 +149,78 @@ const USER = "Tanay0107";
 const FOLDER = "portfolio/Creatives";
 
 const imageFiles = [
-  
-  
-  
-  "Mucaryal LBL 2 V8 2 May-01.jpg", 
-  "Mucaryal LBL 2 V8 2 May CTC copy-02.jpg",
-  "Mucaryal LBL 2 V8 2 May CTC Mockup.jpeg",
-  
-  "Mucaryal LBL 6 V3 CTC copy-01.jpg",
-  "Mucaryal LBL 6 V3 CTC copy-02.jpg",
-  "Mucaryal LBL 6 V3 CTC copy-02 inside V1.jpg",
-  
-  "Mucaryal LBL 7 V5 CTC copy-02.jpg",
-  "Mucaryal LBL 7 V5 CTC copy-01.jpg",  
-  "Mucaryal LBL 7 V5 CTC copy-01 Mockup.jpg",
 
-  "Mucaryl- AB lbl 4-01.jpg",
-  "Mucaryl- AB lbl 4-02.jpg",
-  "Mucaryl- AB lbl 4 Mockup.jpg",
-  
-  "Mucaryl- AB lbl 3 CTC-01.jpg",
-  "Mucaryl- AB lbl 3 CTC-02.jpg",
-  "Mucaryl- AB lbl 3 CTC Mockup.jpg",
-  
-  "Mucaryl AB VA V13 Final CTC copy-01.jpg",
-  "Mucaryl AB VA V13 Final CTC copy-02.jpg",
-  
-  "Mucaryal AB Paitent Profile 1 VV7 CTC Final copy-01.jpg",
-  "Mucaryal AB Paitent Profile 1 VV7 CTC Final copy-02.jpg",
-   
-  "Nebsmart Patient Profiler 1 V3 CTC copy-01.jpg",
-  "Nebsmart Patient Profiler 1 V3 CTC copy-02.jpg",
-  "Nebsmart Patient Profiler 3 Misha Iyer V5 CTC copy-01.jpg",
-  "Nebsmart Patient Profiler 3 Misha Iyer V5 CTC copy-02.jpg",
+  // MUCARYL-AB
+  {file:"Mucaryal LBL 2 V8 2 May-01.jpg", type:"mucaryl"},
+  {file:"Mucaryal LBL 2 V8 2 May CTC copy-02.jpg", type:"mucaryl"},
+  {file:"Mucaryal LBL 2 V8 2 May CTC Mockup.jpeg", type:"mucaryl"},
 
-  "Eventus Neurology Font change VV4-02.jpg",
-  "Eventus Neurology Font change VV4-03.jpg",
-  "Eventus Neurology Font change VV4-04.jpg",
-  "Eventus Neurology Font change VV4-05.jpg",
-  "Eventus Neurology Font change VV4-06.jpg",
-"Eventus Neurology Font change VV4-07.jpg",
-"Eventus Neurology Font change VV4-08.jpg",
-"Eventus Neurology Font change VV4-09.jpg",
-"Eventus Neurology Font change VV4-10.jpg",
-"Eventus Neurology Font change VV4-11.jpg",
-"Eventus Neurology Font change VV4-12.jpg",
-"Eventus Neurology Font change VV4-13.jpg",
-"Eventus Neurology Font change VV4-14.jpg",
+  {file:"Mucaryal LBL 6 V3 CTC copy-01.jpg", type:"mucaryl"},
+  {file:"Mucaryal LBL 6 V3 CTC copy-02.jpg", type:"mucaryl"},
+  {file:"Mucaryal LBL 6 V3 CTC copy-02 inside V1.jpg", type:"mucaryl"},
 
-  "Eventus Psychiatry Font change VV3 CTC-01.jpg",
-  "Eventus Psychiatry Font change VV3 CTC-02.jpg",
-"Eventus Psychiatry Font change VV3 CTC-03.jpg",
-"Eventus Psychiatry Font change VV3 CTC-04.jpg",
-"Eventus Psychiatry Font change VV3 CTC-05.jpg",
-"Eventus Psychiatry Font change VV3 CTC-06.jpg",
-"Eventus Psychiatry Font change VV3 CTC-07.jpg",
-"Eventus Psychiatry Font change VV3 CTC-08.jpg",
-"Eventus Psychiatry Font change VV3 CTC-09.jpg",
-"Eventus Psychiatry Font change VV3 CTC-10.jpg",
-"Eventus Psychiatry Font change VV3 CTC-11.jpg",
-"Eventus Psychiatry Font change VV3 CTC-12.jpg",
-"Eventus Psychiatry Font change VV3 CTC-13.jpg",
-"Eventus Psychiatry Font change VV3 CTC-14.jpg",
-"Eventus Psychiatry Font change VV3 CTC-15.jpg",
-"Eventus Psychiatry Font change VV3 CTC-16.jpg",
-"Eventus Psychiatry Font change VV3 CTC-17.jpg",
-"Eventus Psychiatry Font change VV3 CTC-18.jpg",
-"Eventus Psychiatry Font change VV3 CTC-19.jpg",
-"Eventus Psychiatry Font change VV3 CTC-20.jpg",
-"Eventus Psychiatry Font change VV3 CTC-21.jpg",
-"Eventus Psychiatry Font change VV3 CTC-22.jpg",
-    ]; 
+  {file:"Mucaryal LBL 7 V5 CTC copy-02.jpg", type:"mucaryl"},
+  {file:"Mucaryal LBL 7 V5 CTC copy-01.jpg", type:"mucaryl"},
+  {file:"Mucaryal LBL 7 V5 CTC copy-01 Mockup.jpg", type:"mucaryl"},
 
+  {file:"Mucaryl- AB lbl 4-01.jpg", type:"mucaryl"},
+  {file:"Mucaryl- AB lbl 4-02.jpg", type:"mucaryl"},
+  {file:"Mucaryl- AB lbl 4 Mockup.jpg", type:"mucaryl"},
+
+  {file:"Mucaryl- AB lbl 3 CTC-01.jpg", type:"mucaryl"},
+  {file:"Mucaryl- AB lbl 3 CTC-02.jpg", type:"mucaryl"},
+  {file:"Mucaryl- AB lbl 3 CTC Mockup.jpg", type:"mucaryl"},
+
+  {file:"Mucaryl AB VA V13 Final CTC copy-01.jpg", type:"mucaryl"},
+  {file:"Mucaryl AB VA V13 Final CTC copy-02.jpg", type:"mucaryl"},
+
+  {file:"Mucaryal AB Paitent Profile 1 VV7 CTC Final copy-01.jpg", type:"mucaryl"},
+  {file:"Mucaryal AB Paitent Profile 1 VV7 CTC Final copy-02.jpg", type:"mucaryl"},
+
+  // NEBSMART
+  {file:"Nebsmart Patient Profiler 1 V3 CTC copy-01.jpg", type:"nebsmart"},
+  {file:"Nebsmart Patient Profiler 1 V3 CTC copy-02.jpg", type:"nebsmart"},
+  {file:"Nebsmart Patient Profiler 3 Misha Iyer V5 CTC copy-01.jpg", type:"nebsmart"},
+  {file:"Nebsmart Patient Profiler 3 Misha Iyer V5 CTC copy-02.jpg", type:"nebsmart"},
+
+  // EVENTUS
+  {file:"Eventus Neurology Font change VV4-02.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-03.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-04.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-05.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-06.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-07.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-08.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-09.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-10.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-11.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-12.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-13.jpg", type:"eventus"},
+  {file:"Eventus Neurology Font change VV4-14.jpg", type:"eventus"},
+
+  {file:"Eventus Psychiatry Font change VV3 CTC-01.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-02.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-03.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-04.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-05.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-06.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-07.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-08.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-09.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-10.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-11.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-12.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-13.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-14.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-15.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-16.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-17.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-18.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-19.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-20.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-21.jpg", type:"eventus"},
+  {file:"Eventus Psychiatry Font change VV3 CTC-22.jpg", type:"eventus"},
+];
 
 let images = [];
 let currentIndex = 0;
@@ -219,30 +229,39 @@ const gallery = document.getElementById("gallery");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 
-imageFiles.forEach((file, index) => {
-  const url = `https://${USER}.github.io/${FOLDER}/${encodeURIComponent(file)}`;
-  images.push(url);
+function renderGallery(filter = "all") {
+  gallery.innerHTML = "";
+  images = [];
 
-  const img = document.createElement("img");
-  img.src = url;
+  imageFiles.forEach((item, index) => {
+    if (filter !== "all" && item.type !== filter) return;
 
-  img.onerror = () => console.log("❌ Not loading:", url);
+    const url = `https://${USER}.github.io/${FOLDER}/${encodeURIComponent(item.file)}`;
+    images.push(url);
 
-  img.loading = "lazy";
-  img.decoding = "async";
-  img.draggable = false;
+    const img = document.createElement("img");
+    img.src = url;
 
-  img.onclick = () => {
-    currentIndex = index;
-    openLightbox();
-  };
+    img.onclick = () => {
+      currentIndex = images.indexOf(url);
+      openLightbox();
+    };
 
-  gallery.appendChild(img);
+    gallery.appendChild(img);
 
-  requestAnimationFrame(() => {
-    setTimeout(() => img.classList.add("show"), index * 80);
+    requestAnimationFrame(() => {
+      setTimeout(() => img.classList.add("show"), index * 60);
+    });
   });
-});
+}
+
+function filterImages(type) {
+  document.querySelectorAll(".filters button").forEach(btn =>
+    btn.classList.remove("active")
+  );
+  event.target.classList.add("active");
+  renderGallery(type);
+}
 
 /* LIGHTBOX */
 function openLightbox() {
@@ -264,7 +283,6 @@ function prevImg() {
   updateImage();
 }
 
-/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
@@ -280,14 +298,8 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") prevImg();
 });
 
-/* SWIPE */
-let startX = 0;
-lightbox.addEventListener("touchstart", e => startX = e.touches[0].clientX);
-lightbox.addEventListener("touchend", e => {
-  let endX = e.changedTouches[0].clientX;
-  if (startX - endX > 50) nextImg();
-  if (endX - startX > 50) prevImg();
-});
+/* INIT */
+renderGallery();
 </script>
 
 </body>
