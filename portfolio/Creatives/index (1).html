@@ -1,70 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tanay Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hajmola Ad Campaign</title>
 
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-    }
+<style>
+:root {
+  --green: #1f5c2c;
+  --dark: #000;
+  --soft-shadow: rgba(0, 0, 0, 0.12);
+  --hover-shadow: rgba(0, 0, 0, 0.2);
+  --lightbox-bg: rgba(0, 0, 0, 0.9);
+  --border-color: #e0e0e0;
+}
 
-    .container { text-align: center; }
+/* BASE */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #fdfdfd;
+  color: var(--green);
+  -webkit-font-smoothing: antialiased;
+  user-select: none; /* Prevent text/image selection */
+}
 
-    h1 {
-      margin-bottom: 40px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
+h1 {
+  text-align: center;
+  padding: 30px 20px 10px;
+  font-size: 2rem;
+  color: var(--green);
+}
 
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(2, 150px);
-      gap: 20px;
-      justify-content: center;
-    }
+/* GRID */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 25px;
+  max-width: 1200px;
+  margin: auto;
+}
 
-    .btn {
-      padding: 18px;
-      border-radius: 16px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 500;
-      font-family: 'Inter', sans-serif;
-      background: transparent;
-      border: 1.5px solid #3dba6f;
-      color: white;
-      transition: 0.3s ease;
-    }
+/* IMAGE CARD - RECTANGLE */
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* Optically pleasing rectangle */
+  object-fit: cover;   /* Fill rectangle without distortion */
+  border-radius: 16px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-shadow: 0 4px 15px var(--soft-shadow);
+  
+  /* Disable download */
+  -webkit-user-drag: none;
+  pointer-events: auto;
 
-    .btn:hover {
-      transform: translateY(-5px);
-      background: rgba(61, 186, 111, 0.08);
-      box-shadow: 0 6px 20px rgba(61, 186, 111, 0.2);
-    }
-  </style>
+  /* PERFORMANCE */
+  will-change: transform, opacity;
+  transform: translateY(20px) scale(0.98);
+  opacity: 0;
+
+  transition: transform 0.35s ease, opacity 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* SHOW ANIMATION */
+.gallery img.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* HOVER */
+.gallery img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 25px var(--hover-shadow);
+  border-color: var(--green);
+}
+
+/* LIGHTBOX */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: var(--lightbox-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* LIGHTBOX IMAGE */
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 16px;
+  border: 2px solid var(--green);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s ease;
+  -webkit-user-drag: none; /* Prevent drag */
+  pointer-events: none;     /* Prevent right click in lightbox */
+}
+
+#lightbox.active img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* CONTROLS */
+.control {
+  position: absolute;
+  color: #fff;
+  font-size: 42px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, opacity 0.2s;
+}
+
+.control:hover {
+  transform: scale(1.25);
+}
+
+#close { top: 20px; right: 30px; }
+#prev { left: 20px; top: 50%; transform: translateY(-50%); }
+#next { right: 20px; top: 50%; transform: translateY(-50%); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .gallery { grid-template-columns: 1fr; }
+}
+</style>
 </head>
-<body>
-  <div class="container">
-    <h1>My Portfolio</h1>
-    <div class="buttons">
-      <button class="btn" onclick="openPage('chatgpt/chatgpt.html')">ChatGPT</button>
-      <button class="btn" onclick="openPage('hajmola/hajmola.html')">Hajmola</button>
-      <button class="btn" onclick="openPage('logo/logo.html')">Logo</button>
-      <button class="btn" onclick="openPage('mimi/mini.html')">Sandisk</button>
-    </div>
-  </div>
 
-  <script>
-    function openPage(page) { window.location.href = page; }
-  </script>
+<body oncontextmenu="return false;"> <!-- Disable right-click on page -->
+
+<h1>Hajmola Ad Campaign</h1>
+
+<div class="gallery" id="gallery"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span class="control" id="close">&times;</span>
+  <span class="control" id="prev">&#10094;</span>
+  <img id="lightbox-img">
+  <span class="control" id="next">&#10095;</span>
+</div>
+
+<script>
+const USER = "Tanay0107";
+const REPO = "Tanay0107.github.io";
+const FOLDER = "portfolio/hajmola";
+
+const imageFiles = [
+  "Hajmola Brief 2026-02.jpg",
+  "publishingad_2 a4.jpg",
+  "hording_banana.png",
+  "hording_icecream.jpg",
+  "hording_pizza.png",
+  "zinovative_final.jpg",
+  "pressad_chiken.jpg",
+  "pressad_orange.jpg",
+  "pressad_watermelon.jpg"
+];
+
+let images = [];
+let currentIndex = 0;
+
+const gallery = document.getElementById("gallery");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+/* CREATE IMAGES */
+imageFiles.forEach((file, index) => {
+  const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
+  images.push(url);
+
+  const img = document.createElement("img");
+  img.src = url;
+
+  img.loading = "lazy";
+  img.decoding = "async";
+  img.draggable = false; // Prevent dragging
+
+  img.onclick = () => {
+    currentIndex = index;
+    openLightbox();
+  };
+
+  if(file === "Hajmola Brief 2026-02.jpg") {
+    gallery.prepend(img);
+  } else {
+    gallery.appendChild(img);
+  }
+
+  requestAnimationFrame(() => {
+    setTimeout(() => img.classList.add("show"), index * 80);
+  });
+});
+
+/* LIGHTBOX FUNCTIONS */
+function openLightbox() {
+  lightbox.classList.add("active");
+  updateImage();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+}
+
+function updateImage() {
+  lightboxImg.src = images[currentIndex];
+}
+
+function nextImg() {
+  currentIndex = (currentIndex + 1) % images.length;
+  updateImage();
+}
+
+function prevImg() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  updateImage();
+}
+
+/* CONTROLS */
+document.getElementById("close").onclick = closeLightbox;
+document.getElementById("next").onclick = nextImg;
+document.getElementById("prev").onclick = prevImg;
+
+/* CLICK OUTSIDE TO CLOSE */
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+/* KEYBOARD */
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("active")) return;
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") nextImg();
+  if (e.key === "ArrowLeft") prevImg();
+});
+
+/* SWIPE SUPPORT */
+let startX = 0;
+lightbox.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+lightbox.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) nextImg();
+  if (endX - startX > 50) prevImg();
+});
+
+/* PRELOAD NEXT IMAGE */
+function preload(index) {
+  const img = new Image();
+  img.src = images[index];
+}
+setInterval(() => preload((currentIndex + 1) % images.length), 1000);
+</script>
+
 </body>
 </html>
