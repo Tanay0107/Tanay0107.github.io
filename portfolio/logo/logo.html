@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -66,7 +67,6 @@ h1 {
   transition: all 0.6s ease;
 }
 
-/* loaded image */
 .card img.loaded {
   filter: blur(0);
   transform: scale(1);
@@ -130,6 +130,30 @@ h1 {
 #prev { left: 20px; }
 #next { right: 20px; }
 
+/* KAIZEN BUTTON */
+.bottom-btn {
+  text-align: center;
+  margin: 40px 0 60px;
+}
+
+.kaizen-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 2px solid var(--dabur-green);
+  border-radius: 30px;
+  text-decoration: none;
+  color: var(--dabur-green);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.kaizen-btn:hover {
+  background: var(--dabur-green);
+  color: #fff;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .gallery {
@@ -150,6 +174,11 @@ h1 {
 <h1>Logo Project</h1>
 
 <div class="gallery" id="gallery"></div>
+
+<!-- KAIZEN BUTTON -->
+<div class="bottom-btn">
+  <a href="kaizen.html" class="kaizen-btn">Kaizen logo</a>
+</div>
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
@@ -179,7 +208,6 @@ let currentIndex = 0;
 
 const gallery = document.getElementById("gallery");
 
-/* CREATE CARDS */
 imageFiles.forEach((file, index) => {
 
   const url = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${FOLDER}/${encodeURIComponent(file)}`;
@@ -201,7 +229,6 @@ imageFiles.forEach((file, index) => {
   };
 });
 
-/* LAZY LOAD + SMOOTH ENTRY */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -220,7 +247,6 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll(".card").forEach(card => observer.observe(card));
 
-/* LIGHTBOX */
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 
@@ -255,12 +281,10 @@ function prevImg() {
   updateImage();
 }
 
-/* CONTROLS */
 document.getElementById("close").onclick = closeLightbox;
 document.getElementById("next").onclick = nextImg;
 document.getElementById("prev").onclick = prevImg;
 
-/* KEYBOARD */
 document.addEventListener("keydown", (e) => {
   if (!lightbox.classList.contains("active")) return;
 
@@ -269,7 +293,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") prevImg();
 });
 
-/* SWIPE SUPPORT */
 let startX = 0;
 
 lightbox.addEventListener("touchstart", e => {
