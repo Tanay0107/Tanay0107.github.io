@@ -47,16 +47,24 @@ body {
   overflow: hidden;
 }
 
-/* PORTFOLIO RIBBON - GLOWING MOTION BUTTON */
+/* PORTFOLIO RIBBON - ADVANCED MOTION BUTTON */
+
 @keyframes glowPulse {
   0%   { box-shadow: 0 0 8px 2px rgba(200,232,107,0.5), 0 8px 20px rgba(0,0,0,0.2); }
-  50%  { box-shadow: 0 0 22px 6px rgba(200,232,107,0.9), 0 8px 24px rgba(0,0,0,0.25); }
+  50%  { box-shadow: 0 0 22px 6px rgba(200,232,107,0.9), 0 10px 28px rgba(0,0,0,0.3); }
   100% { box-shadow: 0 0 8px 2px rgba(200,232,107,0.5), 0 8px 20px rgba(0,0,0,0.2); }
 }
 
 @keyframes shimmer {
   0%   { background-position: -100% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* subtle floating motion */
+@keyframes floatMove {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-4px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
 .portfolio-btn {
@@ -72,13 +80,31 @@ body {
   letter-spacing: 2px;
   padding: 18px 8px;
   border-radius: 0 12px 0 12px;
+
   box-shadow: 0 0 8px 2px rgba(200,232,107,0.5), 0 8px 20px rgba(0,0,0,0.2);
-  animation: glowPulse 2.4s ease-in-out infinite;
-  transition: all 0.3s ease;
+
+  animation: 
+    glowPulse 2.4s ease-in-out infinite,
+    floatMove 3.5s ease-in-out infinite;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
   z-index: 10;
   font-size: 14px;
   line-height: 1.2;
   overflow: hidden;
+  cursor: pointer;
+}
+
+/* HOVER = magnetic lift + scale */
+.portfolio-btn:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 0 28px 8px rgba(200,232,107,1), 0 14px 34px rgba(0,0,0,0.35);
+}
+
+/* CLICK feedback */
+.portfolio-btn:active {
+  transform: translateY(-2px) scale(0.97);
 }
 
 /* Shimmer sweep overlay */
@@ -86,8 +112,8 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -100%;
+  width: 200%;
   height: 100%;
   background: linear-gradient(
     105deg,
@@ -95,7 +121,6 @@ body {
     rgba(255,255,255,0.55) 50%,
     transparent 70%
   );
-  background-size: 200% 100%;
   animation: shimmer 2.4s ease-in-out infinite;
   pointer-events: none;
 }
