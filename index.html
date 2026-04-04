@@ -1,11 +1,12 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Tanay Motghare | Graphic Designer</title>
+<title>Tanay Motghare</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+
 
 <style>
 * {
@@ -14,10 +15,12 @@
   box-sizing: border-box;
 }
 
+
 :root {
   --accent-green: #c8e86b;
   --dark-bg: #6b6b6b;
   --card-bg: #ffffff;
+  --dark-green: #2f5a1d; /* 👈 ADD THIS */
 }
 
 body {
@@ -47,100 +50,87 @@ body {
   overflow: hidden;
 }
 
-/* PORTFOLIO RIBBON - ADVANCED MOTION BUTTON */
-
-@keyframes glowPulse {
-  0%   { box-shadow: 0 0 8px 2px rgba(200,232,107,0.5), 0 8px 20px rgba(0,0,0,0.2); }
-  50%  { box-shadow: 0 0 22px 6px rgba(200,232,107,0.9), 0 10px 28px rgba(0,0,0,0.3); }
-  100% { box-shadow: 0 0 8px 2px rgba(200,232,107,0.5), 0 8px 20px rgba(0,0,0,0.2); }
+.letters i {
+  font-family:'Montserrat';
+  display: inline-block;
+  transform: rotate(-90deg); /* 👈 anticlockwise tilt */
+  font-style: normal;
+  margin:1px;
 }
 
-@keyframes shimmer {
-  0%   { background-position: -100% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* subtle floating motion */
-@keyframes floatMove {
-  0%   { transform: translateY(0px) rotate(0deg); }
-  50%  { transform: translateY(-4px) rotate(-1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-
+/* ============================= */
+/* 🔥 PORTFOLIO BUTTON FINAL */
+/* ============================= */
 .portfolio-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position:absolute;
+  margin:5px;
+  right:0;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  background: var(--accent-green);
-  color: #000;
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: 2px;
-  padding: 18px 8px;
-  border-radius: 0 12px 0 12px;
-
-  box-shadow: 0 0 8px 2px rgba(200,232,107,0.5), 0 8px 20px rgba(0,0,0,0.2);
-
-  animation: 
-    glowPulse 2.4s ease-in-out infinite,
-    floatMove 3.5s ease-in-out infinite;
-
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-  z-index: 10;
-  font-size: 14px;
-  line-height: 1.2;
-  overflow: hidden;
-  cursor: pointer;
+  padding:18px 10px;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-decoration:none;
+  color:#000;
+  background:transparent;
+  border-radius:0 12px 0 12px;
+  overflow:hidden;
+  z-index:10;
+  transition: transform 0.3s ease;
+  
 }
 
-/* HOVER = magnetic lift + scale */
 .portfolio-btn:hover {
-  transform: translateY(-6px) scale(1.05);
-  box-shadow: 0 0 28px 8px rgba(200,232,107,1), 0 14px 34px rgba(0,0,0,0.35);
+  transform: scale(1.07);
 }
-
-/* CLICK feedback */
-.portfolio-btn:active {
-  transform: translateY(-2px) scale(0.97);
-}
-
-/* Shimmer sweep overlay */
 .portfolio-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255,255,255,0.55) 50%,
-    transparent 70%
+  animation: none; /* idle state */
+  transition: opacity 0.3s ease;
+}
+
+.portfolio-btn:hover::before {
+  animation: rotate 3s linear infinite;
+  opacity: 1;
+}
+
+/* ROTATING BORDER */
+.portfolio-btn::before {
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:inherit;
+
+  background:conic-gradient(
+    var(--dark-green),
+    #3f6f2a,
+    var(--dark-green)
   );
-  animation: shimmer 2.4s ease-in-out infinite;
-  pointer-events: none;
+
+  animation:rotate 3s linear infinite;
+ 
 }
 
+/* INNER BG */
 .portfolio-btn::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  right: 0;
-  border-width: 10px;
-  border-style: solid;
-  border-color: #a3c94f transparent transparent transparent;
+  content:"";
+  position:absolute;
+  inset:3px;
+  background:var(--accent-green);
+  border-radius:inherit;
+  z-index:1;
 }
 
-.portfolio-btn:hover {
-  background: #d6f57a;
-  padding-right: 12px;
-  box-shadow: 0 0 30px 10px rgba(200,232,107,1), 0 8px 28px rgba(0,0,0,0.3);
-  animation: none;
-  transform: scale(1.04);
+/* TEXT */
+.portfolio-btn span {
+  position:relative;
+  z-index:2;
+}
+
+/* ROTATION */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* BACKGROUND BLOCKS - ORIGINAL */
@@ -465,19 +455,30 @@ body {
   }
   
   /* Portfolio button remains VERTICAL */
-  .portfolio-btn {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    top: 0;
-    right: 0;
-    padding: 18px 8px;
-    border-radius: 0 12px 0 12px;
-    font-size: 13px;
-  }
-  
-  .portfolio-btn::after {
-    display: block;
-  }
+ 
+ .portfolio-btn {
+  position:absolute;
+  top:0;
+  right:0;
+
+  display:inline-block;
+  cursor:pointer;
+
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+
+  padding:18px 10px;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-decoration:none;
+
+  color:#000;
+  border-radius:0 12px 0 12px;
+  overflow:hidden;
+  z-index:10;
+  isolation:isolate;
+}
 }
 
 /* ============================================ */
@@ -699,9 +700,28 @@ body {
   }
   
   .portfolio-btn {
-    padding: 12px 6px;
-    font-size: 10px;
-  }
+  position:absolute;
+  top:0;
+  right:0;
+
+  display:inline-block;
+  cursor:pointer;
+
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+
+  padding:18px 10px;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-decoration:none;
+
+  color:#000;
+  border-radius:0 12px 0 12px;
+  overflow:hidden;
+  z-index:10;
+  isolation:isolate;
+}
 }
 
 /* MEDIUM LANDSCAPE PHONES - OPTIMAL SCALING */
@@ -846,7 +866,11 @@ body {
 <div class="container">
 
   <!-- PORTFOLIO RIBBON - VERTICAL ON ALL SCREENS -->
-  <a href="portfolio/portfolio.html" class="portfolio-btn">PORTFOLIO</a>
+  <a href="portfolio/portfolio.html" class="portfolio-btn">
+  <span class="letters">
+    <i>P</i><i>O</i><i>R</i><i>T</i><i>F</i><i>O</i><i>L</i><i>I</i><i>O</i>
+  </span>
+</a>
 
   <!-- GREEN ACCENT STRIP - DYNAMICALLY ALIGNED WITH TITLE AND EXTENDS TO LAST LETTER 'e' -->
   <div class="green-strip"></div>
