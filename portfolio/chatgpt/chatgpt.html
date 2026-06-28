@@ -83,10 +83,14 @@ html, body {
 .page {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 28px 60px;
+  padding: 0 20px 60px;
 }
+
+@media (min-width: 540px)  { .page { padding: 0 28px 60px; } }
+@media (min-width: 1440px) { .page { padding: 0 40px 80px; max-width: 1800px; } }
+@media (min-width: 1920px) { .page { padding: 0 60px 100px; max-width: 2200px; } }
 
 /* ── TOP NAV ── */
 .topnav {
@@ -175,11 +179,37 @@ h1 em {
   font-weight: 400;
 }
 
-/* ── GALLERY GRID ── */
+/* ── GALLERY GRID — responsive columns ── */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap: 16px;
+  gap: 12px;
+  /* Mobile: 2 columns */
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Small tablet (≥ 540px): 2 wider columns */
+@media (min-width: 540px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+
+/* Tablet (≥ 720px): 3 columns */
+@media (min-width: 720px) {
+  .gallery { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+}
+
+/* Laptop (≥ 1024px): 4 columns */
+@media (min-width: 1024px) {
+  .gallery { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+}
+
+/* Large desktop (≥ 1440px): 5 columns */
+@media (min-width: 1440px) {
+  .gallery { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+}
+
+/* 4K / ultra-wide (≥ 1920px): 6 columns */
+@media (min-width: 1920px) {
+  .gallery { grid-template-columns: repeat(6, 1fr); gap: 22px; }
 }
 
 /* ── IMAGE CARD ── */
@@ -224,7 +254,7 @@ h1 em {
 
 .img-wrap img {
   width: 100%;
-  height: 220px;
+  aspect-ratio: 4 / 3;   /* scales naturally with column width */
   object-fit: cover;
   display: block;
   transition: transform 0.45s ease;
@@ -361,7 +391,23 @@ h1 em {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 80px 90px;
+  /* Mobile first: tight padding so image fills well */
+  padding: 64px 52px 20px;
+}
+
+/* Tablet */
+@media (min-width: 720px) {
+  .slide { padding: 80px 80px 30px; }
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+  .slide { padding: 80px 110px; }
+}
+
+/* Large desktop */
+@media (min-width: 1440px) {
+  .slide { padding: 80px 160px; }
 }
 
 .slide img {
@@ -409,16 +455,32 @@ h1 em {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── MOBILE ── */
-@media (max-width: 600px) {
-  .page { padding: 0 16px 48px; }
-  .gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-  .img-wrap img { height: 160px; }
-  .slide { padding: 60px 50px; }
-  #lb-prev { left: 8px; }
-  #lb-next { right: 8px; }
-  .lb-nav { width: 38px; height: 38px; font-size: 16px; }
-  h1 { letter-spacing: -1.2px; }
+/* ── RESPONSIVE OVERRIDES ── */
+
+/* Small mobile (≤ 480px) */
+@media (max-width: 480px) {
+  h1 { letter-spacing: -1px; }
+  .img-wrap { border-radius: 12px; }
+  #lb-prev  { left: 6px; }
+  #lb-next  { right: 6px; }
+  .lb-nav   { width: 36px; height: 36px; font-size: 15px; }
+  .lb-title { display: none; }       /* saves space on tiny screens */
+}
+
+/* Tablet (720px – 1023px) */
+@media (min-width: 720px) and (max-width: 1023px) {
+  .lb-nav { width: 44px; height: 44px; }
+  #lb-prev { left: 14px; }
+  #lb-next { right: 14px; }
+}
+
+/* Large desktop / 4K */
+@media (min-width: 1440px) {
+  .img-wrap { border-radius: 22px; }
+  .lb-nav   { width: 56px; height: 56px; font-size: 24px; }
+  #lb-prev  { left: 28px; }
+  #lb-next  { right: 28px; }
+  .slide img { border-radius: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
