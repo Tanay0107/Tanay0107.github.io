@@ -3,128 +3,370 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tanay Portfolio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
+<title>Tanay · Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
 }
 
-/* ⚡ WHITE BACKGROUND (FIXED) */
+:root {
+  --lime:        #c8e86b;
+  --lime-mid:    #9fd43a;
+  --lime-glow:   rgba(200,232,107,0.13);
+  --lime-border: rgba(200,232,107,0.28);
+  --bg:          #090b0f;
+  --surface:     rgba(255,255,255,0.034);
+  --border:      rgba(255,255,255,0.07);
+  --text:        #f2f2f5;
+  --muted:       rgba(255,255,255,0.38);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
-  height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-
-  background: #ffffff;
 }
 
-/* 💧 BLUE BLOBS */
-body::before {
-  content: '';
+/* ── AURORA BACKGROUND ── */
+.aurora {
   position: fixed;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(120, 180, 255, 0.35), transparent 70%);
-  top: -150px;
-  left: -150px;
-  border-radius: 50%;
-  filter: blur(90px);
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
-body::after {
+/* Dot grid with vignette mask */
+.aurora::before {
   content: '';
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(120, 180, 255, 0.25), transparent 70%);
-  bottom: -100px;
-  right: -100px;
-  border-radius: 50%;
-  filter: blur(90px);
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.065) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%);
 }
 
-/* CONTENT */
-.container {
-  text-align: center;
-  padding: 20px;
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  animation: drift 11s ease-in-out infinite;
+}
+
+.orb-a {
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(145,220,80,0.22), transparent 65%);
+  top: -220px; left: -180px;
+  animation-delay: 0s;
+}
+.orb-b {
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(90,150,255,0.16), transparent 65%);
+  bottom: -200px; right: -160px;
+  animation-delay: -4.5s;
+}
+.orb-c {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(190,245,100,0.10), transparent 65%);
+  top: 35%; right: 18%;
+  animation-delay: -8s;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(22px, -18px) scale(1.04); }
+  66%       { transform: translate(-14px, 20px) scale(0.97); }
+}
+
+/* ── CARD ── */
+.card {
   position: relative;
-  z-index: 1;
+  z-index: 10;
+  padding: 44px 38px 38px;
+  width: min(460px, 92vw);
+  background: var(--surface);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.6),
+    0 32px 72px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+  transition: background 0.05s linear;
+}
+
+/* ── HEADER ── */
+.header {
+  margin-bottom: 34px;
+  opacity: 0;
+  animation: slideDown 0.75s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 14px;
+}
+.eyebrow span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--lime);
+  opacity: 0.5;
 }
 
 h1 {
-  margin-bottom: 30px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #1a2e1a;
+  font-size: clamp(30px, 6vw, 40px);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1.8px;
+  line-height: 1.05;
+  margin-bottom: 9px;
 }
 
-/* BUTTONS */
-.buttons {
+h1 em {
+  font-style: normal;
+  background: linear-gradient(130deg, #d4f07a 0%, #8ed43c 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+/* ── GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  align-items: center;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 20px 18px 17px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition:
+    transform  0.35s cubic-bezier(0.34,1.56,0.64,1),
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  overflow: hidden;
+  opacity: 0;
 }
 
-.btn {
-  width: 220px;
-  padding: 18px;
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+/* Stagger entrance */
+.btn:nth-child(1) { animation: popUp 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.35s forwards; }
+.btn:nth-child(2) { animation: popUp 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.45s forwards; }
+.btn:nth-child(3) { animation: popUp 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.55s forwards; }
+.btn:nth-child(4) { animation: popUp 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.65s forwards; }
+.btn:nth-child(5) { animation: popUp 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.75s forwards; }
+.btn:nth-child(6) { animation: popUp 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.85s forwards; }
 
-  background: #c8e86b;
-  color: #1a2e1a;
-  border: none;
+/* Shimmer sweep */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    108deg,
+    transparent 35%,
+    rgba(255,255,255,0.05) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  pointer-events: none;
+}
 
-  box-shadow: 0 4px 16px rgba(150, 200, 80, 0.3);
-  transition: all 0.25s ease;
+/* Top accent line */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 18px; right: 18px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--lime), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0 0 2px 2px;
 }
 
 .btn:hover {
-  transform: translateY(-6px) scale(1.08);
-  background: #baf255;
-  box-shadow: 0 12px 30px rgba(150, 200, 80, 0.5);
+  transform: translateY(-6px) scale(1.04);
+  background: var(--lime-glow);
+  border-color: var(--lime-border);
+  box-shadow:
+    0 18px 36px rgba(0,0,0,0.35),
+    0 0 24px rgba(200,232,107,0.1);
+}
+.btn:hover::before  { opacity: 1; }
+.btn:hover::after   {
+  transform: translateX(120%) skewX(-12deg);
+  transition: transform 0.55s ease;
 }
 
-/* MOBILE */
-@media (max-width: 500px) {
-  .btn { width: 180px; }
+.btn:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Icon + Label */
+.btn-icon {
+  font-size: 22px;
+  line-height: 1;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(200,232,107,0.25));
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.btn:hover .btn-icon {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.btn-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+  color: rgba(255,255,255,0.88);
+}
+
+/* Videos — highlighted, same size as others */
+.btn.featured {
+  background: rgba(200,232,107,0.06);
+  border-color: rgba(200,232,107,0.18);
+}
+.btn.featured:hover {
+  background: rgba(200,232,107,0.12);
+  border-color: rgba(200,232,107,0.38);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes popUp {
+  from { opacity: 0; transform: scale(0.86) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 420px) {
+  .card { padding: 30px 22px 26px; border-radius: 22px; }
+  h1    { font-size: 28px; }
+  .grid { gap: 9px; }
+  .btn  { padding: 16px 14px 13px; border-radius: 15px; }
+  .btn-icon { font-size: 20px; }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .orb, .btn, .header { animation-duration: 0.01ms !important; }
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h1>My Portfolio</h1>
+<!-- Aurora -->
+<div class="aurora">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+</div>
 
-  <div class="buttons">
-    <button class="btn" onclick="openPage('chatgpt/chatgpt.html')">ChatGPT</button>
-    <button class="btn" onclick="openPage('hajmola/hajmola.html')">Hajmola</button>
-    <button class="btn" onclick="openPage('logo/logo.html')">Logo</button>
-    <button class="btn" onclick="openPage('mimi/mini.html')">Sandisk</button>
-    <button class="btn" onclick="openPage('Creatives/creative.html')">Other Creatives</button>
+<!-- Main Card -->
+<div class="card" id="card">
 
-    <!-- ✅ NEW VIDEOS BUTTON -->
-    <button class="btn" onclick="openPage('Post/Post.html')">Videos</button>
+  <div class="header">
+    <div class="eyebrow"><span></span> Creative Portfolio <span></span></div>
+    <h1><em>Tanay's</em> Work</h1>
+    <p class="sub">Branding · Visual Design · Motion</p>
+  </div>
+
+  <div class="grid">
+
+    <button class="btn" onclick="go('chatgpt/chatgpt.html')">
+      <span class="btn-icon">🤖</span>
+      <span class="btn-name">ChatGPT</span>
+    </button>
+
+    <button class="btn" onclick="go('hajmola/hajmola.html')">
+      <span class="btn-icon">🌶️</span>
+      <span class="btn-name">Hajmola</span>
+    </button>
+
+    <button class="btn" onclick="go('logo/logo.html')">
+      <span class="btn-icon">✦</span>
+      <span class="btn-name">Logo</span>
+    </button>
+
+    <button class="btn" onclick="go('mimi/mini.html')">
+      <span class="btn-icon">💾</span>
+      <span class="btn-name">Sandisk</span>
+    </button>
+
+    <button class="btn" onclick="go('Creatives/creative.html')">
+      <span class="btn-icon">🎨</span>
+      <span class="btn-name">Other Creatives</span>
+    </button>
+
+    <button class="btn featured" onclick="go('Post/Post.html')">
+      <span class="btn-icon">🎬</span>
+      <span class="btn-name">Videos</span>
+    </button>
+
   </div>
 </div>
 
 <script>
-function openPage(page) {
-  window.location.href = page;
-}
-</script>
+  function go(page) {
+    window.location.href = page;
+  }
 
+  /* Mouse-tracking spotlight on card */
+  const card = document.getElementById('card');
+
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    card.style.background = `
+      radial-gradient(520px circle at ${x}px ${y}px,
+        rgba(200,232,107,0.065), transparent 42%),
+      rgba(255,255,255,0.034)
+    `;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.background = 'rgba(255,255,255,0.034)';
+  });
+</script>
 </body>
 </html>
